@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/teal_200"
     tools:context=".HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -11,6 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="32dp"
-        android:text="Home" />
+        android:text="Home Fragment" />
 
 </FrameLayout>
