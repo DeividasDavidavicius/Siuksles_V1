@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     Button button;
     Button button1;
-    TextView textView;
+    Button button2;
     FirebaseUser user;
 
     @Override
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         replaceFragment(new HomeFragment());
+
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
             switch(item.getItemId()) {
@@ -46,20 +48,26 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
+
+
         button1 = findViewById(R.id.settings);
 
+        button2 = findViewById(R.id.profile);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new ProfileFragment());
+            }
+        });
 
         auth = FirebaseAuth.getInstance();
         button = findViewById(R.id.logout);
-        textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
+
         if(user == null) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
             finish();
-        }
-        else {
-            textView.setText(user.getEmail());
         }
 
         button.setOnClickListener(new View.OnClickListener() {
