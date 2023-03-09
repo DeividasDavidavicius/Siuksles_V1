@@ -10,6 +10,8 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.siukslesv1.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,10 +21,12 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     FirebaseAuth auth;
-    Button button;
-    Button button1;
-    Button button2;
+    Button settingsButton;
+    Button cameraButton;
     FirebaseUser user;
+
+    ImageView selectedImage;
+    Button cameraBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,26 +52,26 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+        settingsButton = findViewById(R.id.Settings);
+        cameraButton = findViewById(R.id.Camera);
 
-
-        button1 = findViewById(R.id.Settings);
-
-        button1.setOnClickListener(new View.OnClickListener() {
+        settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 replaceFragment(new SettingsFragment());
             }
         });
-        button2 = findViewById(R.id.Logout);
-        button2.setOnClickListener(new View.OnClickListener() {
+
+        cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                replaceFragment(new ProfileFragment());
+                Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
         auth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.Logout);
         user = auth.getCurrentUser();
 
         if(user == null) {
@@ -76,15 +80,19 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-        button.setOnClickListener(new View.OnClickListener() {
+
+        // NUOTRAUKOS
+
+        //selectedImage = findViewById(R.id.displayImageView);
+        //cameraBtn = findViewById(R.id.cameraBtn);
+/*
+        cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent);
-                finish();
+                Toast.makeText(MainActivity.this, "Camera Btn is Clicked", Toast.LENGTH_SHORT).show();
             }
-        });
+        }); */
+
     }
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -101,9 +109,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), Login.class);
         startActivity(intent);
         finish();
-
     }
-    public void SwitchFragment(View view)
+    public void switchFragmentToProfile(View view)
     {
         replaceFragment(new ProfileFragment());
     }

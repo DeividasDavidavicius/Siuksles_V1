@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:text="Profile"
-        android:onClick="SwitchFragment"
+        android:onClick="switchFragmentToProfile"
         tools:visibility="visible" />
 
 </FrameLayout>
