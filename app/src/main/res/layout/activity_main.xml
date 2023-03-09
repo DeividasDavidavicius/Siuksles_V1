@@ -15,12 +15,22 @@
         android:background="@color/cardview_shadow_start_color">
 
         <Button
-            android:id="@+id/logout"
+            android:id="@+id/Settings"
+            android:layout_width="53dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginLeft="100dp"
+            android:foreground="@drawable/baseline_settings_24"
+            android:background="@drawable/baseline_settings_24" />
+
+        <Button
+            android:id="@+id/Logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:text="@string/logout"
-            tools:visibility="visible" />
+            android:visibility="gone"
+            tools:visibility="gone" />
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigationView"
@@ -28,18 +38,20 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:translationZ="90dp"
+            android:visibility="gone"
             app:menu="@menu/top_nav_menu"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
         </com.google.android.material.navigation.NavigationView>
 
         <Button
-            android:id="@+id/profile"
+            android:id="@+id/Profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
             android:text="Profile"
-            tools:visibility="visible"/>
+            android:visibility="gone"
+            tools:visibility="gone" />
 
     </FrameLayout>
 
