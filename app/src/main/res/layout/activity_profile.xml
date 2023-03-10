@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    tools:context=".profileActivity">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -35,7 +35,7 @@
         android:layout_width="350dp"
         android:layout_height="250dp"
         android:layout_marginBottom="8dp"
-        android:layout_gravity="center"
+        android:layout_centerInParent="true"
         android:orientation="vertical">
 
         <TextView
@@ -72,6 +72,21 @@
             android:textSize="25dp"
             android:text="" />
     </LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu" />
+
+    <Button
+        android:id="@+id/Settings"
+        android:layout_width="53dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/baseline_settings_24"
+        android:foreground="@drawable/baseline_settings_24"
+        android:layout_alignParentRight="true"
+        tools:ignore="RtlHardcoded" />
 
 
-</FrameLayout>
+</RelativeLayout>

@@ -1,53 +1,31 @@
 package com.example.siukslesv1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
-import android.os.Binder;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.example.siukslesv1.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class mapActivity extends AppCompatActivity {
 
-    ActivityMainBinding binding;
-    FirebaseAuth auth;
     Button settingsButton;
     Button profileButton;
-    FirebaseUser user;
-
-    ImageView selectedImage;
-    Button cameraBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
-
-        if(user == null) {
-            Intent intent = new Intent(getApplicationContext(), Login.class);
-            startActivity(intent);
-            finish();
-        }
-
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_map);
 
         // Initialize and assign variable
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
 
         // Set Home selected
-        bottomNavigationView.setSelectedItemId(R.id.home);
+        bottomNavigationView.setSelectedItemId(R.id.map);
 
         // Perform item selected listener
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -58,10 +36,10 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(),CameraActivity.class));
                     overridePendingTransition(0,0);
                     return true;
-                case R.id.home:
-                    return true;
                 case R.id.map:
-                    startActivity(new Intent(getApplicationContext(),mapActivity.class));
+                    return true;
+                case R.id.home:
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
                     overridePendingTransition(0,0);
                     return true;
             }
@@ -81,29 +59,6 @@ public class MainActivity extends AppCompatActivity {
                 switchToProfile();
             }
         });
-
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
-
-        if(user == null) {
-            Intent intent = new Intent(getApplicationContext(), Login.class);
-            startActivity(intent);
-            finish();
-        }
-
-
-        // NUOTRAUKOS
-
-        //selectedImage = findViewById(R.id.displayImageView);
-        //cameraBtn = findViewById(R.id.cameraBtn);
-/*
-        cameraBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Camera Btn is Clicked", Toast.LENGTH_SHORT).show();
-            }
-        }); */
-
     }
     private void switchToSettings() {
         Intent switchActivityIntent = new Intent(this, settingsActivity.class);

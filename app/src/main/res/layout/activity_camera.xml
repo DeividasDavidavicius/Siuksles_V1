@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,21 +12,39 @@
         android:id="@+id/displayImageView"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.23000002"
+        android:layout_marginTop="70dp"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/ic_launcher_background" />
 
     <Button
         android:id="@+id/cameraBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="Camera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/displayImageView"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="400dp"
+        android:text="Camera" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu" />
+
+    <Button
+        android:id="@+id/Settings"
+        android:layout_width="53dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/baseline_settings_24"
+        android:foreground="@drawable/baseline_settings_24"
+        android:layout_alignParentRight="true"
+        tools:ignore="RtlHardcoded" />
+
+    <Button
+        android:id="@+id/Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="Profile"/>
+
+</RelativeLayout>

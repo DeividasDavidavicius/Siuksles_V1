@@ -30,6 +30,18 @@
             android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar"/>
         <activity
+            android:name=".mapActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar"/>
+        <activity
+            android:name=".settingsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar"/>
+        <activity
+            android:name=".profileActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar"/>
+        <activity
             android:name=".Register"
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
