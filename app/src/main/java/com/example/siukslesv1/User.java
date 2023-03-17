@@ -4,6 +4,8 @@ public class User {
     private String email;
     private String password;
     private String username;
+    private String title;
+    private int points;
 
     public User() {
     }
@@ -13,10 +15,12 @@ public class User {
         this.password = password;
     }
 
-    public User(String email, String password, String username) {
+    public User(String email, String password, String username, String title, int points) {
         this.email = email;
         this.password = password;
         this.username = username;
+        this.title = title;
+        this.points = points;
     }
 
     public String getEmail() {
@@ -29,5 +33,13 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getPoints() {
+        return points;
     }
 }

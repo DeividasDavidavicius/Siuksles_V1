@@ -23,15 +23,14 @@ import com.google.firebase.database.ValueEventListener;
 
 public class profileActivity extends AppCompatActivity {
 
-    private TextView usernameView, emailView;
+    private TextView usernameView, emailView, titleView;
     private FirebaseDatabase database;
     private DatabaseReference userRef;
     private static final String USERS = "user";
     String email;
-    Register register;
     FirebaseAuth mAuth;
 
-    Button settingsButton;
+    Button settingsButton, shopButton, editButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +44,7 @@ public class profileActivity extends AppCompatActivity {
         userRef = database.getReference(USERS);
 
         usernameView = findViewById(R.id.usernameView);
+        titleView = findViewById(R.id.titleView);
         emailView = findViewById(R.id.emailView);
 
         userRef.addValueEventListener(new ValueEventListener() {
@@ -55,6 +55,7 @@ public class profileActivity extends AppCompatActivity {
 
                     if(ds.child("email").getValue().equals(email)){
                         usernameView.setText(ds.child("username").getValue(String.class));
+                        titleView.setText(ds.child("title").getValue(String.class));
                         emailView.setText(email);
                     }
                 }
@@ -89,16 +90,45 @@ public class profileActivity extends AppCompatActivity {
             }
             return false;
         });
+
         settingsButton = findViewById(R.id.Settings);
+        shopButton = findViewById(R.id.PointsShopNav);
+        editButton = findViewById(R.id.EditProfile);
+
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switchToSettings();
             }
         });
+
+        shopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchToShop();
+            }
+        });
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchToEdit();
+            }
+        });
+
     }
     private void switchToSettings() {
         Intent switchActivityIntent = new Intent(this, settingsActivity.class);
+        startActivity(switchActivityIntent);
+    }
+
+    private void switchToShop() {
+        Intent switchActivityIntent = new Intent(this, PointsShopActivity.class);
+        startActivity(switchActivityIntent);
+    }
+
+    private void switchToEdit() {
+        Intent switchActivityIntent = new Intent(this, ProfileEditActivity.class);
         startActivity(switchActivityIntent);
     }
 }
