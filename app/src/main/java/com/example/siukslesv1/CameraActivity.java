@@ -29,6 +29,11 @@ import androidx.fragment.app.FragmentActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -48,21 +53,39 @@ public class CameraActivity extends AppCompatActivity {
     ImageView selectedImage;
     Button cameraBtn;
     Button galleryBtn;
+    Button submitBtn;
     Button settingsButton;
     Button profileButton;
     String currentPhotoPath;
+    String imageUri;
     StorageReference storageReference;
+    TextInputEditText postName;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+    private static final String POSTS = "posts";
+    private FirebaseAuth mAuth;
+    private String email;
+    private Post post;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser mUser = mAuth.getCurrentUser();
+        email = mUser.getEmail();
+
         selectedImage = findViewById(R.id.displayImageView);
         cameraBtn = findViewById(R.id.cameraBtn);
         galleryBtn = findViewById(R.id.galleryBtn);
+        submitBtn = findViewById(R.id.submitBtn);
+        postName = findViewById(R.id.postName);
 
         storageReference = FirebaseStorage.getInstance().getReference();
+
+        database = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
+        databaseReference = database.getReference(POSTS);
 
         cameraBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -78,6 +101,34 @@ public class CameraActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(gallery, GALLERY_REQUEST_CODE);
+            }
+        });
+
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = postName.getText().toString();
+                String location = "Lithuania";
+                int type = 2;
+
+                if(name.matches(""))
+                {
+                    Toast.makeText(CameraActivity.this, "Post must have a name!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(imageUri == null)
+                {
+                    Toast.makeText(CameraActivity.this, "You must select an image before submitting!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                post = new Post(email, name, location, imageUri, type);
+
+                String keyID = databaseReference.push().getKey();
+                databaseReference.child(keyID).setValue(post);
+                Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -194,8 +245,9 @@ public class CameraActivity extends AppCompatActivity {
                 image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                    Log.d("tag", "onSuccess: Uploaded Image URI is " + uri.toString());
-                    Picasso.get().load(uri).into(selectedImage);
+                        Log.d("tag", "onSuccess: Uploaded Image URI is " + uri.toString());
+                        imageUri = uri.toString();
+                        Picasso.get().load(imageUri).into(selectedImage);
                     }
                 });
                 Toast.makeText(CameraActivity.this, "Image Is Uploaded", Toast.LENGTH_SHORT).show();
