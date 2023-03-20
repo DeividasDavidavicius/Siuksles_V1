@@ -29,3 +29,4 @@ public class Post {
     public int getType() { return type; }
     public int getVoteCount() { return voteCount; }
 }
+
