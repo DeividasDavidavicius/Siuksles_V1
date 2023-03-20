@@ -37,6 +37,8 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     List<Post> postList;
 
-
+Button vote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         PostRecyclerView = findViewById(R.id.postRV);
+
+
         PostRecyclerView.setHasFixedSize(true);
         PostRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         firebaseDatabase = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
@@ -93,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     postList.add(post);
                 }
                 postAdapter = new PostAdapter(MainActivity.this,postList);
+                Collections.reverse(postList);
                 PostRecyclerView.setAdapter(postAdapter);
             }
 

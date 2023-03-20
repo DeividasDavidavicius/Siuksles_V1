@@ -4,7 +4,7 @@ public class Post {
     private String email;
     private String name;
     private String location;
-    private String URI;
+    private String uri;
     private int type;
     private int voteCount;
 
@@ -15,7 +15,7 @@ public class Post {
         this.email = email;
         this.name = name;
         this.location = location;
-        this.URI = URI;
+        this.uri = uri;
         this.type = type;
         this.voteCount = 0;
     }
@@ -24,9 +24,13 @@ public class Post {
         return email;
     }
     public String getName() { return name; }
-    public String getURI() {return URI; };
+    public String getURI() {return uri; }
     public String getLocation() { return location; }
     public int getType() { return type; }
     public int getVoteCount() { return voteCount; }
-}
 
+    public void add()
+    {
+        voteCount = voteCount+1;
+    }
+}
