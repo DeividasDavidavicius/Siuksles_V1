@@ -1,16 +1,24 @@
 package com.example.siukslesv1;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Camera;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Looper;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -26,8 +34,20 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,6 +63,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -50,6 +72,8 @@ public class CameraActivity extends AppCompatActivity {
     public static final int CAMERA_REQUEST_CODE = 102;
     private static final int CAMERA_PERMISSION_CODE = 103;
     public static final int GALLERY_REQUEST_CODE = 105;
+
+    public static final int LOCATION_REQUEST_CODE = 44;
     ImageView selectedImage;
     Button cameraBtn;
     Button galleryBtn;
@@ -66,10 +90,19 @@ public class CameraActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String email;
     private Post post;
+    private String locationInfo;
+    private LocationRequest locationRequest;
+    private FusedLocationProviderClient FusedLocationClient;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //kvieciant locationa submite nespeja requestai suvaiksciot.
+        FusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        getCurrentLocation();
+
+
         setContentView(R.layout.activity_camera);
 
         mAuth = FirebaseAuth.getInstance();
@@ -86,6 +119,11 @@ public class CameraActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference(POSTS);
+
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(200);
 
         cameraBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -108,7 +146,6 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String name = postName.getText().toString();
-                String location = "Lithuania";
                 int type = 2;
 
                 if(name.matches(""))
@@ -123,7 +160,7 @@ public class CameraActivity extends AppCompatActivity {
                     return;
                 }
 
-                post = new Post(email, name, location, imageUri, type);
+                post = new Post(email, name, locationInfo, imageUri, type);
 
                 String keyID = databaseReference.push().getKey();
                 databaseReference.child(keyID).setValue(post);
@@ -131,7 +168,6 @@ public class CameraActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         // Initialize and assign variable
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
 
@@ -204,6 +240,11 @@ public class CameraActivity extends AppCompatActivity {
                 Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
             }
         }
+        if (requestCode == LOCATION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getCurrentLocation();
+            }
+        }
     }
 
     @Override
@@ -219,7 +260,7 @@ public class CameraActivity extends AppCompatActivity {
                 Uri contentUri = Uri.fromFile(f);
                 mediaScanIntent.setData(contentUri);
                 this.sendBroadcast(mediaScanIntent);
-                
+
                 uploadImageToFirebase(f.getName(), contentUri);
             }
         }
@@ -231,7 +272,7 @@ public class CameraActivity extends AppCompatActivity {
                 String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
                 Log.d("tag", "onActivityResult: Gallery Image Uri: " + imageFileName);
                 //selectedImage.setImageURI(contentUri);
-                
+
                 uploadImageToFirebase(imageFileName, contentUri);
             }
         }
@@ -302,4 +343,78 @@ public class CameraActivity extends AppCompatActivity {
         //}
     }
 
+    @SuppressLint("MissingPermission")
+    private void getCurrentLocation() {
+
+        if (checkPermissions()) {
+
+            if (isLocationEnabled()) {
+                FusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        Location location = task.getResult();
+                        if (location == null) {
+                            requestNewLocationData();
+                        } else {
+                            locationInfo = String.format("%f %f",location.getLatitude(),location.getLongitude());
+                        }
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Please turn on" + " your location...", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        } else {
+            requestPermissions();
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void requestNewLocationData() {
+
+
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5);
+        locationRequest.setFastestInterval(0);
+        locationRequest.setNumUpdates(1);
+
+
+        FusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        FusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+    }
+
+    private LocationCallback locationCallback = new LocationCallback() {
+
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location LastLocation = locationResult.getLastLocation();
+            locationInfo = String.format("%f %f",LastLocation.getLatitude(),LastLocation.getLongitude());
+        }
+    };
+
+    private boolean checkPermissions() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (checkPermissions()) {
+            getCurrentLocation();
+        }
+    }
 }
+
