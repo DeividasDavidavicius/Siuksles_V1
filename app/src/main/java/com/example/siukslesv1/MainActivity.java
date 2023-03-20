@@ -1,22 +1,43 @@
 package com.example.siukslesv1;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.siukslesv1.databinding.ActivityMainBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +49,17 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView selectedImage;
     Button cameraBtn;
+
+    RecyclerView postRecyclerView;
+    PostAdapter postAdapter;
+
+    RecyclerView PostRecyclerView;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+
+    List<Post> postList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +73,34 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
+
         setContentView(R.layout.activity_main);
+
+
+        PostRecyclerView = findViewById(R.id.postRV);
+        PostRecyclerView.setHasFixedSize(true);
+        PostRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        firebaseDatabase = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
+        databaseReference = firebaseDatabase.getReference("posts");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                postList = new ArrayList<>();
+
+                for (DataSnapshot postsnap : snapshot.getChildren()){
+                    Post post = postsnap.getValue(Post.class);
+                    postList.add(post);
+                }
+                postAdapter = new PostAdapter(MainActivity.this,postList);
+                PostRecyclerView.setAdapter(postAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         // Initialize and assign variable
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
@@ -59,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
                     overridePendingTransition(0,0);
                     return true;
                 case R.id.home:
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    overridePendingTransition(0,0);
                     return true;
                 case R.id.map:
                     startActivity(new Intent(getApplicationContext(),mapActivity.class));
