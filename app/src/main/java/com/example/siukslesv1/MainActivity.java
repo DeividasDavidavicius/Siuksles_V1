@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
     List<Post> postList;
 
-Button vote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

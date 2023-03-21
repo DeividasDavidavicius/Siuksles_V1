@@ -23,7 +23,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     Context mContext;
     List<Post> mData;
 
-    Button vote;
 
 
     public PostAdapter (Context mContext, List<Post> mData)
@@ -42,12 +41,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     public void onBindViewHolder (@NonNull MyViewHolder holder, int position){
 
         holder.tvTitle.setText(mData.get(position).getName());
-        holder.voted.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
         holder.votes.setText(String.valueOf(mData.get(position).getVoteCount()));
         Glide.with(mContext).load(mData.get(position).getURI()).into(holder.imgPost);
     }
@@ -63,7 +56,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
         TextView votes;
 
-        Button voted;
 
         public MyViewHolder(View itemView){
             super(itemView);
@@ -71,7 +63,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             tvTitle = itemView.findViewById(R.id.row_post_title);
             imgPost = itemView.findViewById(R.id.row_post_image);
             votes = itemView.findViewById(R.id.votes);
-            voted = itemView.findViewById(R.id.VoteFor);
         }
 
     }

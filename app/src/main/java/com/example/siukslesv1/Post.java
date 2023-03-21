@@ -11,7 +11,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(String email, String name, String location, String URI, int type) {
+    public Post(String email, String name, String location, String uri, int type) {
         this.email = email;
         this.name = name;
         this.location = location;
