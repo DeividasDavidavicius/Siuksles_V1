@@ -26,10 +26,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Material3.Light"
         tools:targetApi="31">
+        <activity
+            android:name=".aboutUsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".contactUsActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDZz3xTl11PVJPr-yhKiw9sJ-6OJZYzhOo"></meta-data>
+            android:value="AIzaSyDZz3xTl11PVJPr-yhKiw9sJ-6OJZYzhOo" />
 
         <activity
             android:name=".ProfileEditActivity"
