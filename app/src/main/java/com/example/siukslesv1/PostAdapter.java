@@ -42,7 +42,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
         holder.tvTitle.setText(mData.get(position).getName());
         holder.votes.setText(String.valueOf(mData.get(position).getVoteCount()));
-        Glide.with(mContext).load(mData.get(position).getURI()).into(holder.imgPost);
+        Glide.with(mContext).load(mData.get(position).getUri()).into(holder.imgPost);
     }
     @Override
     public int getItemCount(){

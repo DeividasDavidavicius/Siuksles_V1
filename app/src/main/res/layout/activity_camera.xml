@@ -10,9 +10,9 @@
 
     <ImageView
         android:id="@+id/displayImageView"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="70dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="55dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_launcher_background" />
 
@@ -20,15 +20,15 @@
         android:id="@+id/cameraBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
         android:layout_marginLeft="75dp"
+        android:layout_marginTop="320dp"
         android:text="Camera" />
 
     <Button
         android:id="@+id/galleryBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="320dp"
         android:layout_marginLeft="225dp"
         android:text="Gallery" />
 
@@ -36,16 +36,50 @@
         android:id="@+id/postName"
         android:layout_width="195dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="460dp"
-        android:layout_marginLeft="100dp"
-        android:hint="Pavadinimas" />
+        android:layout_marginTop="375dp"
+        android:layout_centerHorizontal="true"
+        android:inputType="text"
+        android:hint="Title" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="440dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/radioGroup"
+        android:orientation="horizontal"
+        >
+
+        <RadioButton
+            android:id="@+id/size_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small"
+            android:onClick="checkSizeButton"
+            />
+        <RadioButton
+            android:id="@+id/size_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium"
+            android:onClick="checkSizeButton"
+            />
+        <RadioButton
+            android:id="@+id/size_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Large"
+            android:onClick="checkSizeButton"
+            />
+
+    </RadioGroup>
 
     <Button
         android:id="@+id/submitBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="520dp"
-        android:layout_marginLeft="160dp"
+        android:layout_centerHorizontal="true"
         android:text="Submit" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

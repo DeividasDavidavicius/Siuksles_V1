@@ -24,13 +24,9 @@ public class Post {
         return email;
     }
     public String getName() { return name; }
-    public String getURI() {return uri; }
+    public String getUri() {return uri; };
     public String getLocation() { return location; }
     public int getType() { return type; }
     public int getVoteCount() { return voteCount; }
-
-    public void add()
-    {
-        voteCount = voteCount+1;
-    }
 }
+

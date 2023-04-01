@@ -24,6 +24,8 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -84,6 +86,9 @@ public class CameraActivity extends AppCompatActivity {
     String imageUri;
     StorageReference storageReference;
     TextInputEditText postName;
+    RadioGroup radioGroup;
+    RadioButton radioButton;
+    int dumpSize;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private static final String POSTS = "posts";
@@ -99,10 +104,8 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //kvieciant locationa submite nespeja requestai suvaiksciot.
-        FusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        getCurrentLocation();
-
-
+        //FusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        //getCurrentLocation();
         setContentView(R.layout.activity_camera);
 
         mAuth = FirebaseAuth.getInstance();
@@ -114,16 +117,18 @@ public class CameraActivity extends AppCompatActivity {
         galleryBtn = findViewById(R.id.galleryBtn);
         submitBtn = findViewById(R.id.submitBtn);
         postName = findViewById(R.id.postName);
+        radioGroup = findViewById(R.id.radioGroup);
+        dumpSize = -1;
 
         storageReference = FirebaseStorage.getInstance().getReference();
 
         database = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference(POSTS);
 
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(5000);
-        locationRequest.setFastestInterval(200);
+        //locationRequest = LocationRequest.create();
+        //locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        //locationRequest.setInterval(5000);
+        //locationRequest.setFastestInterval(200);
 
         cameraBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -146,7 +151,7 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String name = postName.getText().toString();
-                int type = 2;
+                locationInfo = "lithuania";
 
                 if(name.matches(""))
                 {
@@ -160,7 +165,13 @@ public class CameraActivity extends AppCompatActivity {
                     return;
                 }
 
-                post = new Post(email, name, locationInfo, imageUri, type);
+                if(dumpSize == -1)
+                {
+                    Toast.makeText(CameraActivity.this, "You must select dump size!" + dumpSize, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                post = new Post(email, name, locationInfo, imageUri, dumpSize);
 
                 String keyID = databaseReference.push().getKey();
                 databaseReference.child(keyID).setValue(post);
@@ -240,11 +251,12 @@ public class CameraActivity extends AppCompatActivity {
                 Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
             }
         }
+        /*
         if (requestCode == LOCATION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getCurrentLocation();
             }
-        }
+        } */
     }
 
     @Override
@@ -343,6 +355,25 @@ public class CameraActivity extends AppCompatActivity {
         //}
     }
 
+    public void checkSizeButton(View v)
+    {
+
+        int radioId = radioGroup.getCheckedRadioButtonId();
+        radioButton = findViewById(radioId);
+
+        if(radioButton.getText().toString().matches("Small")) {
+            dumpSize = 1;
+        }
+        if(radioButton.getText().toString().matches("Medium")) {
+            dumpSize = 2;
+        }
+        if(radioButton.getText().toString().matches("Large")) {
+            dumpSize = 3;
+        }
+
+        //Toast.makeText(CameraActivity.this, "Selected Radio Button: " + radioButton.getText(), Toast.LENGTH_SHORT).show();
+    }
+/*
     @SuppressLint("MissingPermission")
     private void getCurrentLocation() {
 
@@ -415,6 +446,6 @@ public class CameraActivity extends AppCompatActivity {
         if (checkPermissions()) {
             getCurrentLocation();
         }
-    }
+    } */
 }
 
