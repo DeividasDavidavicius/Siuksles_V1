@@ -14,12 +14,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.siukslesv1.databinding.ActivityMainBinding;
@@ -40,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
 
     List<Post> postList;
+    TextView timer;
 
 
     @Override
@@ -79,6 +83,27 @@ public class MainActivity extends AppCompatActivity {
 
 
         PostRecyclerView = findViewById(R.id.postRV);
+
+        //TIMERIS (REIKES PAKEIST, DABAR LAIKINAS)
+        timer = findViewById(R.id.timer);
+        long timerDuration = TimeUnit.MINUTES.toMillis(120);
+        new CountDownTimer(timerDuration, 1000)
+        {
+
+            @Override
+            public void onTick(long l) {
+                int hours = (int)(l/1000/60/60);
+                int minutes = (int) (l - hours * 60 * 60 * 1000)/(1000 * 60);
+                int seconds = (int) (l - minutes * 60 * 1000 - hours * 60 * 60 * 1000) / 1000;
+                timer.setText("Timer: " + hours + "h "+ minutes + "min " + seconds + "s");
+            }
+
+            @Override
+            public void onFinish() {
+                timer.setText("Done");
+            }
+        }.start();
+
 
 
         PostRecyclerView.setHasFixedSize(true);
