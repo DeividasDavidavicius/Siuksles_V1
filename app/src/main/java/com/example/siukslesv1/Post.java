@@ -27,6 +27,9 @@ public class Post {
     public String getUri() {return uri; };
     public String getLocation() { return location; }
     public int getType() { return type; }
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
     public int getVoteCount() { return voteCount; }
 }
 
