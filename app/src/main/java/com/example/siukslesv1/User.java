@@ -1,5 +1,7 @@
 package com.example.siukslesv1;
 
+import java.util.UUID;
+
 public class User {
     private String email;
     private String password;

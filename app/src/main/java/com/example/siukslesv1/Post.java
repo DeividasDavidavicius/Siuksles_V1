@@ -1,5 +1,7 @@
 package com.example.siukslesv1;
 
+import java.util.UUID;
+
 public class Post {
     private String email;
     private String name;
@@ -7,6 +9,7 @@ public class Post {
     private String uri;
     private int type;
     private int voteCount;
+    private String postid;
 
     public Post() {
     }
@@ -31,5 +34,6 @@ public class Post {
         this.voteCount = voteCount;
     }
     public int getVoteCount() { return voteCount; }
+    public String getPostid() { return postid; }
 }
 

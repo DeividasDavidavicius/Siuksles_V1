@@ -65,6 +65,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -170,6 +171,10 @@ public class CameraActivity extends AppCompatActivity {
                     Toast.makeText(CameraActivity.this, "You must select dump size!" + dumpSize, Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                //Creating unique ID for post
+                UUID postID = generateKey();
+                String id = postID.toString();
 
                 post = new Post(email, name, locationInfo, imageUri, dumpSize);
 
@@ -447,5 +452,9 @@ public class CameraActivity extends AppCompatActivity {
             getCurrentLocation();
         }
     } */
+    private UUID generateKey()
+    {
+        return UUID.randomUUID();
+    }
 }
 
