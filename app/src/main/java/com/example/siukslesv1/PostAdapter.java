@@ -1,6 +1,7 @@
 package com.example.siukslesv1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -50,6 +51,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder (@NonNull MyViewHolder holder, int position){
+        // Set a click listener on the ConstraintLayout to open the PostDetailActivity
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create an Intent to launch the PostDetailActivity
+                Intent intent = new Intent(mContext, PostDetailsActivity.class);
+
+                // Add the post data to the Intent
+                intent.putExtra("post_title", mData.get(position).getName());
+                intent.putExtra("post_votes", String.valueOf(mData.get(position).getVoteCount()));
+                intent.putExtra("post_image", mData.get(position).getUri());
+                intent.putExtra("post_location", mData.get(position).getLocation());
+
+                // Launch the PostDetailActivity
+                mContext.startActivity(intent);
+            }
+        });
 
         holder.tvTitle.setText(mData.get(position).getName());
         holder.votes.setText(String.valueOf(mData.get(position).getVoteCount()));
