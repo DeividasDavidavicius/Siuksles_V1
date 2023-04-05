@@ -32,6 +32,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -42,6 +43,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 
 public class mapActivity extends AppCompatActivity implements
@@ -49,7 +52,8 @@ public class mapActivity extends AppCompatActivity implements
         OnCameraMoveStartedListener,
         OnCameraMoveCanceledListener,
         OnCameraIdleListener,
-        OnCameraMoveListener {
+        OnCameraMoveListener,
+        GoogleMap.OnInfoWindowClickListener {
 
     Button settingsButton;
     Button profileButton;
@@ -57,7 +61,7 @@ public class mapActivity extends AppCompatActivity implements
     DatabaseReference databaseReference;
     private GoogleMap map;
     public static final int LOCATION_REQUEST_CODE = 44;
-
+    List<Post> postList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,6 +141,7 @@ public class mapActivity extends AppCompatActivity implements
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot markerSnap : snapshot.getChildren()){
                     Post post = markerSnap.getValue(Post.class);
+                    postList.add(post);
                     assert post != null;
                     String[] arrayOfStr = post.getLocation().split(" ", 5);
                     for (int i = 0; i < arrayOfStr.length; i++)
@@ -149,7 +154,8 @@ public class mapActivity extends AppCompatActivity implements
                     map.addMarker(new MarkerOptions()
                             .position(position)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                            .title(post.getName()));
+                            .title(post.getName())
+                            .snippet("Click on me to get more information"));
                 }
             }
 
@@ -158,6 +164,7 @@ public class mapActivity extends AppCompatActivity implements
 
             }
         });
+        googleMap.setOnInfoWindowClickListener(this);
     }
 
     @Override
@@ -209,5 +216,23 @@ public class mapActivity extends AppCompatActivity implements
         ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+    }
+
+    @Override
+    public void onInfoWindowClick(@NonNull Marker marker) {
+        // Create an Intent to launch the PostDetailActivity
+        Intent intent = new Intent(this, PostDetailsActivity.class);
+        // Add the post data to the Intent
+        for (int i = 0; i < postList.size(); i++)
+        {
+            if (Objects.equals(marker.getTitle(), postList.get(i).getName())) {
+                intent.putExtra("post_title", postList.get(i).getName());
+                intent.putExtra("post_votes", String.valueOf(postList.get(i).getVoteCount()));
+                intent.putExtra("post_image", postList.get(i).getUri());
+                intent.putExtra("post_location", postList.get(i).getLocation());
+            }
+        }
+        // Launch the PostDetailActivity
+        startActivity(intent);
     }
 }

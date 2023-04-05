@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.net.URI;
@@ -43,5 +44,32 @@ public class PostDetailsActivity extends AppCompatActivity {
         mVotesTextView.setText(postVotes);
         locationTextView.setText(postLocation);
         Picasso.get().load(imagePost).into(imagePostView);
+
+        // Initialize and assign variable
+        BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
+
+        // Set Home selected
+        bottomNavigationView.setSelectedItemId(R.id.home);
+
+        // Perform item selected listener
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+
+            switch(item.getItemId())
+            {
+                case R.id.camera:
+                    startActivity(new Intent(getApplicationContext(),CameraActivity.class));
+                    overridePendingTransition(0,0);
+                    return true;
+                case R.id.home:
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    overridePendingTransition(0,0);
+                    return true;
+                case R.id.map:
+                    startActivity(new Intent(getApplicationContext(),mapActivity.class));
+                    overridePendingTransition(0,0);
+                    return true;
+            }
+            return false;
+        });
     }
 }
