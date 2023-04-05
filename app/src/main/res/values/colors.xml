@@ -14,11 +14,9 @@
     <color name="selected_background">#ffaa3f</color>
     <color name="default_background">#3d3d3d</color>
 
-    <color name="settings">#FFFAC9</color>
-    <color name="settings1">#EED4F4</color>
-    <color name="settingsSecondary">#8EAEAA</color>
-    <color name="night_mode">#612481</color>
-    <color name="notifications">#13B2C3</color>
-    <color name="security">#D95F69</color>
+    <color name="light_primary">#EED4F4</color>
+    <color name="light_secondary">#CBBDE4</color>
+
+
 
 </resources>

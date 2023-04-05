@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/settings1"
+    android:background="@color/light_primary"
     android:orientation="vertical"
     tools:context=".settingsActivity">
 
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="Settings"
             android:layout_centerInParent="true"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="18sp"/>
     </RelativeLayout>
@@ -50,7 +50,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:text="Username"
-                android:textColor="#000000"
+                android:textColor="@color/black"
                 android:textSize="22sp"
                 android:textStyle="bold"/>
 
@@ -98,7 +98,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_toEndOf="@+id/nightModeIcon"
                         android:text="Dark Theme"
-                        android:textColor="#000000"
+                        android:textColor="@color/black"
                         android:textStyle="bold" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -132,7 +132,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_toEndOf="@+id/notificationsIcon"
                         android:text="Notifications"
-                        android:textColor="#000000"
+                        android:textColor="@color/black"
                         android:textStyle="bold" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -157,40 +157,6 @@
                 android:orientation="vertical"
                 android:padding="15dp">
 
-                <!-- Contact Us!
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="51dp">
-
-                    <ImageView
-                        android:id="@+id/contactUsIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/round_back_night_mode"
-                        android:padding="8dp"
-                        android:src="@drawable/baseline_contact_support_24" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:layout_toEndOf="@+id/contactUsIcon"
-                        android:text="Contact Us!"
-                        android:textColor="#000000"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/contactUs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/round_back_white10_20"
-                        android:src="@drawable/baseline_keyboard_arrow_right_24" />
-                </RelativeLayout>
--->
                 <!-- About Us -->
 
                 <RelativeLayout
@@ -212,7 +178,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_toEndOf="@+id/aboutUsIcon"
                         android:text="About Us"
-                        android:textColor="#000000"
+                        android:textColor="@color/black"
                         android:textStyle="bold" />
 
                     <ImageButton

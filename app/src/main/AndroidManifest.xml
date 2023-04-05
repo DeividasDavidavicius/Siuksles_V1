@@ -32,9 +32,6 @@
         <activity
             android:name=".aboutUsActivity"
             android:exported="false" />
-        <activity
-            android:name=".contactUsActivity"
-            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

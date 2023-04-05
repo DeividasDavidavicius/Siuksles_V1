@@ -33,7 +33,6 @@ public class settingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         backButton = (ImageButton) findViewById(R.id.homePage1);
-        //contactUsButton = (ImageButton) findViewById(R.id.contactUs);
         aboutUsButton = (ImageButton) findViewById(R.id.aboutUs);
         logoutButton = (androidx.appcompat.widget.AppCompatButton) findViewById(R.id.logout);
         themeBtn = (androidx.appcompat.widget.SwitchCompat) findViewById(R.id.switchBtn);
@@ -43,14 +42,6 @@ public class settingsActivity extends AppCompatActivity {
                 openMainActivity();
             }
         });
-        /*
-        contactUsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openContactUsActivity();
-            }
-        })
-        */
         aboutUsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,10 +68,6 @@ public class settingsActivity extends AppCompatActivity {
     }
     public void openMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-    public void openContactUsActivity(){
-        Intent intent = new Intent(this, contactUsActivity.class);
         startActivity(intent);
     }
     public void openAboutUsActivity(){
