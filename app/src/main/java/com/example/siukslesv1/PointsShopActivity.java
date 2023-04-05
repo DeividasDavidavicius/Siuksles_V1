@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,12 +30,22 @@ public class PointsShopActivity extends AppCompatActivity {
     private TextView pointCountView;
     private FirebaseDatabase database;
     private DatabaseReference userRef;
+    private int pointCount;
+    private DataSnapshot currentSnapshot;
     private static final String USERS = "user";
     String email;
     FirebaseAuth mAuth;
 
     Button settingsButton;
     Button confirmButton;
+    Button buyButton1;
+    Button buyButton2;
+    Button buyButton3;
+    Button buyButton4;
+    Button buyButton5;
+    Button buyButton6;
+    Button buyButton7;
+    Button buyButton8;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,9 +67,10 @@ public class PointsShopActivity extends AppCompatActivity {
                 for(DataSnapshot ds : snapshot.getChildren()){
 
                     if(ds.child("email").getValue().equals(email)){
-                        int pointCount = ds.child("points").getValue(int.class);
+                        pointCount = ds.child("points").getValue(int.class);
                         String pointCountText = " " + String.valueOf(pointCount);
                         pointCountView.setText(pointCountText);
+                        currentSnapshot = ds;
                     }
                 }
             }
@@ -94,6 +106,14 @@ public class PointsShopActivity extends AppCompatActivity {
         });
 
         settingsButton = findViewById(R.id.Settings);
+        buyButton1 = findViewById(R.id.buyButton1);
+        buyButton2 = findViewById(R.id.buyButton2);
+        buyButton3 = findViewById(R.id.buyButton3);
+        buyButton4 = findViewById(R.id.buyButton4);
+        buyButton5 = findViewById(R.id.buyButton5);
+        buyButton6 = findViewById(R.id.buyButton6);
+        buyButton7 = findViewById(R.id.buyButton7);
+        buyButton8 = findViewById(R.id.buyButton8);
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,9 +121,164 @@ public class PointsShopActivity extends AppCompatActivity {
                 switchToSettings();
             }
         });
+
+        buyButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String key = currentSnapshot.getKey();
+
+                if(pointCount > 0){
+                    pointCount -= 1;
+                    userRef.child(key).child("points").setValue(pointCount);
+                }
+                else{
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buyButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String key = currentSnapshot.getKey();
+
+                if(pointCount > 0){
+                    pointCount -= 1;
+                    userRef.child(key).child("points").setValue(pointCount);
+                }
+                else{
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buyButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String key = currentSnapshot.getKey();
+
+                if(pointCount > 0){
+                    pointCount -= 1;
+                    userRef.child(key).child("points").setValue(pointCount);
+                }
+                else{
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buyButton4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String key = currentSnapshot.getKey();
+
+                if(pointCount > 0){
+                    pointCount -= 1;
+                    userRef.child(key).child("points").setValue(pointCount);
+                }
+                else{
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buyButton5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String key = currentSnapshot.getKey();
+
+                if(pointCount > 0){
+                    pointCount -= 1;
+                    userRef.child(key).child("points").setValue(pointCount);
+                }
+                else{
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buyButton6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String key = currentSnapshot.getKey();
+
+                if(pointCount > 0){
+                    pointCount -= 1;
+                    userRef.child(key).child("points").setValue(pointCount);
+                }
+                else{
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buyButton7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String key = currentSnapshot.getKey();
+
+                if(pointCount > 0){
+                    pointCount -= 1;
+                    userRef.child(key).child("points").setValue(pointCount);
+                }
+                else{
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buyButton8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String key = currentSnapshot.getKey();
+
+                if(pointCount > 0){
+                    pointCount -= 1;
+                    userRef.child(key).child("points").setValue(pointCount);
+                }
+                else{
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buyButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String key = currentSnapshot.getKey();
+
+                if(pointCount > 0){
+                    pointCount -= 1;
+                    userRef.child(key).child("points").setValue(pointCount);
+                }
+                else{
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buyButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String key = currentSnapshot.getKey();
+
+                if(pointCount > 0){
+                    pointCount -= 1;
+                    userRef.child(key).child("points").setValue(pointCount);
+                }
+                else{
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
     private void switchToSettings() {
         Intent switchActivityIntent = new Intent(this, settingsActivity.class);
+        startActivity(switchActivityIntent);
+    }
+
+    private void switchToThis() {
+        Intent switchActivityIntent = new Intent(this, PointsShopActivity.class);
         startActivity(switchActivityIntent);
     }
 }

@@ -95,7 +95,7 @@ public class Register extends AppCompatActivity {
 
                 String username = editTextUsername.getText().toString();
                 String title = "Unaccomplished";
-                int points = 0;
+                int points = 5;
 
                 user = new User(email, password, username, title, points);
                 registerUser(email, password);
