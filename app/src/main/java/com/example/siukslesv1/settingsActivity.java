@@ -1,11 +1,13 @@
 package com.example.siukslesv1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,6 +20,8 @@ public class settingsActivity extends AppCompatActivity {
     private ImageButton contactUsButton;
     private ImageButton aboutUsButton;
     private androidx.appcompat.widget.AppCompatButton logoutButton;
+    private androidx.appcompat.widget.SwitchCompat themeBtn;
+
     FirebaseAuth auth;
     Button buttonLogout;
     FirebaseUser user;
@@ -29,21 +33,24 @@ public class settingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         backButton = (ImageButton) findViewById(R.id.homePage1);
-        contactUsButton = (ImageButton) findViewById(R.id.contactUs);
+        //contactUsButton = (ImageButton) findViewById(R.id.contactUs);
         aboutUsButton = (ImageButton) findViewById(R.id.aboutUs);
         logoutButton = (androidx.appcompat.widget.AppCompatButton) findViewById(R.id.logout);
+        themeBtn = (androidx.appcompat.widget.SwitchCompat) findViewById(R.id.switchBtn);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openMainActivity();
             }
         });
+        /*
         contactUsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openContactUsActivity();
             }
-        });
+        })
+        */
         aboutUsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,58 +63,17 @@ public class settingsActivity extends AppCompatActivity {
                 logout(view);
             }
         });
-        /*
-        // Initialize and assign variable
-        BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
-        // Set Home selected
-        bottomNavigationView.setSelectedItemId(R.id.camera);
-
-        // Perform item selected listener
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-
-            switch(item.getItemId())
-            {
-                case R.id.home:
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                    overridePendingTransition(0,0);
-                    return true;
-                case R.id.camera:
-                    return true;
-                case R.id.map:
-                    startActivity(new Intent(getApplicationContext(),mapActivity.class));
-                    overridePendingTransition(0,0);
-                    return true;
-            }
-            return false;
-        });
-        //buttonLogout = findViewById(R.id.Logout);
-        buttonLogout.setOnClickListener(new View.OnClickListener() {
+        themeBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                logout(view);
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(themeBtn.isChecked()){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
+                else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
             }
         });
-        profileButton = findViewById(R.id.Profile);
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switchToProfile();
-            }
-        });
-    }
-    public void logout(View view)
-    {
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(getApplicationContext(), Login.class);
-        startActivity(intent);
-        finish();
-    }
-    private void switchToProfile() {
-        Intent switchActivityIntent = new Intent(this, profileActivity.class);
-        startActivity(switchActivityIntent);
-    */
     }
     public void openMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
