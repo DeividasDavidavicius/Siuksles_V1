@@ -1,13 +1,23 @@
 package com.example.siukslesv1;
 
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+import android.Manifest;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -46,6 +56,8 @@ public class mapActivity extends AppCompatActivity implements
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     private GoogleMap map;
+    public static final int LOCATION_REQUEST_CODE = 44;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +67,7 @@ public class mapActivity extends AppCompatActivity implements
         mapFragment.getMapAsync(this);
 
         // Initialize and assign variable
-        BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         // Set Home selected
         bottomNavigationView.setSelectedItemId(R.id.map);
@@ -63,17 +75,16 @@ public class mapActivity extends AppCompatActivity implements
         // Perform item selected listener
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
-            switch(item.getItemId())
-            {
+            switch (item.getItemId()) {
                 case R.id.camera:
-                    startActivity(new Intent(getApplicationContext(),CameraActivity.class));
-                    overridePendingTransition(0,0);
+                    startActivity(new Intent(getApplicationContext(), CameraActivity.class));
+                    overridePendingTransition(0, 0);
                     return true;
                 case R.id.map:
                     return true;
                 case R.id.home:
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                    overridePendingTransition(0,0);
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    overridePendingTransition(0, 0);
                     return true;
             }
             return false;
@@ -93,10 +104,12 @@ public class mapActivity extends AppCompatActivity implements
             }
         });
     }
+
     private void switchToSettings() {
         Intent switchActivityIntent = new Intent(this, settingsActivity.class);
         startActivity(switchActivityIntent);
     }
+
     private void switchToProfile() {
         Intent switchActivityIntent = new Intent(this, profileActivity.class);
         startActivity(switchActivityIntent);
@@ -110,6 +123,8 @@ public class mapActivity extends AppCompatActivity implements
         map.setOnCameraMoveStartedListener(this);
         map.setOnCameraMoveListener(this);
         map.setOnCameraMoveCanceledListener(this);
+
+        getCurrentLocation();
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(54.8985, 23.9036), 6));
 
@@ -163,5 +178,36 @@ public class mapActivity extends AppCompatActivity implements
     @Override
     public void onCameraMove() {
 
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getCurrentLocation() {
+
+        if (checkPermissions()) {
+
+            if (isLocationEnabled()) {
+                map.setMyLocationEnabled(true);
+            } else {
+                Toast.makeText(this, "Please turn on" + " your location...", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        } else {
+            requestPermissions();
+        }
+    }
+
+    private boolean checkPermissions() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
     }
 }
