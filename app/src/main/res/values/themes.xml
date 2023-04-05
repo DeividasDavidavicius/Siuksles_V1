@@ -20,7 +20,7 @@
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <style name="nightModeSwitch" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="colorControlActivated">@color/night_mode</item>
+        <item name="colorControlActivated">#623421</item>
         <item name="colorSwitchThumbNormal">#FFFFFF</item>
         <item name="android:colorForeground">#99FFFFFF</item>
     </style>
