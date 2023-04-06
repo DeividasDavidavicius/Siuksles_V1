@@ -109,8 +109,8 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //kvieciant locationa submite nespeja requestai suvaiksciot.
-        //FusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        //getCurrentLocation();
+        FusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        getCurrentLocation();
         setContentView(R.layout.activity_camera);
 
         mAuth = FirebaseAuth.getInstance();
@@ -130,10 +130,10 @@ public class CameraActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = database.getReference(POSTS);
 
-        //locationRequest = LocationRequest.create();
-        //locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        //locationRequest.setInterval(5000);
-        //locationRequest.setFastestInterval(200);
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(200);
 
         cameraBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -296,8 +296,6 @@ public class CameraActivity extends AppCompatActivity {
         result = new Float(FloatD + (FloatM/60) + (FloatS/3600));
 
         return result;
-
-
     }
 
 
@@ -334,12 +332,12 @@ public class CameraActivity extends AppCompatActivity {
                 Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
             }
         }
-        /*
+
         if (requestCode == LOCATION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getCurrentLocation();
             }
-        } */
+        }
     }
 
     @Override
@@ -467,7 +465,7 @@ public class CameraActivity extends AppCompatActivity {
 
         //Toast.makeText(CameraActivity.this, "Selected Radio Button: " + radioButton.getText(), Toast.LENGTH_SHORT).show();
     }
-/*
+
     @SuppressLint("MissingPermission")
     private void getCurrentLocation() {
 
@@ -540,7 +538,7 @@ public class CameraActivity extends AppCompatActivity {
         if (checkPermissions()) {
             getCurrentLocation();
         }
-    } */
+    }
     private UUID generateKey()
     {
         return UUID.randomUUID();
