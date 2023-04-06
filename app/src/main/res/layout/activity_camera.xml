@@ -6,7 +6,9 @@
     android:id="@+id/main_browse_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CameraActivity" >
+    tools:context=".CameraActivity"
+    android:background="@color/mainBackground">
+
 
     <ImageView
         android:id="@+id/displayImageView"
@@ -22,6 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="75dp"
         android:layout_marginTop="320dp"
+        android:backgroundTint="@color/mainButton"
+        android:textColor="@color/mainText"
         android:text="Camera" />
 
     <Button
@@ -30,6 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="320dp"
         android:layout_marginLeft="225dp"
+        android:backgroundTint="@color/mainButton"
+        android:textColor="@color/mainText"
         android:text="Gallery" />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -56,6 +62,7 @@
             android:layout_height="wrap_content"
             android:text="Small"
             android:onClick="checkSizeButton"
+            android:textColor="@color/mainText"
             />
         <RadioButton
             android:id="@+id/size_two"
@@ -63,6 +70,7 @@
             android:layout_height="wrap_content"
             android:text="Medium"
             android:onClick="checkSizeButton"
+            android:textColor="@color/mainText"
             />
         <RadioButton
             android:id="@+id/size_three"
@@ -70,6 +78,7 @@
             android:layout_height="wrap_content"
             android:text="Large"
             android:onClick="checkSizeButton"
+            android:textColor="@color/mainText"
             />
 
     </RadioGroup>
@@ -96,12 +105,16 @@
         android:background="@drawable/baseline_settings_24"
         android:foreground="@drawable/baseline_settings_24"
         android:layout_alignParentRight="true"
-        tools:ignore="RtlHardcoded" />
+        tools:ignore="RtlHardcoded"
+        />
 
     <Button
         android:id="@+id/Profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:text="Profile"/>
+        android:text="Profile"
+        android:textColor="@color/mainText"
+        android:backgroundTint="@color/mainButton"
+        />
 </RelativeLayout>

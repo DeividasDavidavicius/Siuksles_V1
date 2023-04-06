@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainBackground"
     tools:context=".profileActivity">
 
     <!-- TODO: Update blank fragment layout -->
@@ -21,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Your Profile"
+            android:textColor="@color/mainText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -45,6 +47,7 @@
             android:layout_weight="0.25"
             android:textSize="25dp"
             android:textStyle="bold"
+            android:textColor="@color/mainText"
             android:text="Username:" />
 
         <TextView
@@ -62,6 +65,7 @@
             android:layout_weight="0.25"
             android:textSize="25dp"
             android:textStyle="bold"
+            android:textColor="@color/mainText"
             android:text="Email:" />
 
         <TextView
@@ -79,6 +83,7 @@
             android:layout_weight="0.25"
             android:textSize="25dp"
             android:textStyle="bold"
+            android:textColor="@color/mainText"
             android:text="Title:" />
 
         <TextView
@@ -124,6 +129,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit Profile"
+            android:backgroundTint="@color/mainButton"
+            android:textColor="@color/mainText"
             android:layout_weight="0.25" />
 
         <TextView
@@ -139,6 +146,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Points Shop"
+            android:backgroundTint="@color/mainButton"
+            android:textColor="@color/mainText"
             android:layout_weight="0.25"/>
 
         <TextView

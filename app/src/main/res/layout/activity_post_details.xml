@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="800dp">
+    android:layout_height="800dp"
+    android:background="@color/mainBackground">
 
     <ImageView
         android:id="@+id/row_post_image"
@@ -25,7 +26,7 @@
         android:layout_marginStart="224dp"
         android:layout_marginTop="248dp"
         android:text="TextView"
-        android:textColor="#fff"
+        android:textColor="@color/mainText"
         android:textSize="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,7 +38,7 @@
         android:layout_marginStart="252dp"
         android:layout_marginTop="312dp"
         android:text="0"
-        android:textColor="#fff"
+        android:textColor="@color/mainText"
         android:textSize="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +50,7 @@
         android:layout_marginStart="128dp"
         android:layout_marginTop="84dp"
         android:text="TextView"
-        android:textColor="#fff"
+        android:textColor="@color/mainText"
         android:textSize="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -61,7 +62,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="248dp"
         android:text="Pavadinimas:"
-        android:textColor="#fff"
+        android:textColor="@color/mainText"
         android:textSize="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -73,7 +74,7 @@
         android:layout_marginStart="128dp"
         android:layout_marginTop="16dp"
         android:text="Vietovė:"
-        android:textColor="#fff"
+        android:textColor="@color/mainText"
         android:textSize="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -85,7 +86,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="312dp"
         android:text="Balsų skaičius:"
-        android:textColor="#fff"
+        android:textColor="@color/mainText"
         android:textSize="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

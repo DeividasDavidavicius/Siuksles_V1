@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileEditActivity">
+    tools:context=".ProfileEditActivity"
+    android:background="@color/mainBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,6 +21,7 @@
             android:layout_height="wrap_content"
             android:text="Edit Profile"
             android:textSize="40dp"
+            android:textColor="@color/mainText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -43,6 +45,7 @@
             android:layout_weight="0.25"
             android:textSize="25dp"
             android:textStyle="bold"
+            android:textColor="@color/mainText"
             android:text="Username:" />
 
         <com.google.android.material.textfield.TextInputEditText
@@ -60,6 +63,7 @@
             android:layout_weight="0.25"
             android:textSize="25dp"
             android:textStyle="bold"
+            android:textColor="@color/mainText"
             android:text="Title:" />
 
         <Spinner
@@ -99,6 +103,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:backgroundTint="@color/mainButton"
+            android:textColor="@color/mainText"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

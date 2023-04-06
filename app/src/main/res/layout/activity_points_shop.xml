@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PointsShopActivity">
+    tools:context=".PointsShopActivity"
+    android:background="@color/mainBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout3"
@@ -18,12 +19,14 @@
             android:layout_height="wrap_content"
             android:text="Points Shop"
             android:textSize="40dp"
+            android:textColor="@color/mainText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.506" />
+            app:layout_constraintVertical_bias="0.506"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -51,6 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:orientation="horizontal"
+        android:textColor="@color/mainText"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
 
         <TextView
@@ -58,6 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="Current point amount:"
+            android:textColor="@color/mainText"
             android:textSize="20dp" />
 
         <TextView
@@ -100,6 +105,7 @@
                     android:layout_height="30dp"
                     android:textAlignment="center"
                     android:text="Temp"
+                    android:textColor="@color/mainText"
                     android:textSize="20dp" />
 
                 <Button
@@ -108,6 +114,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/mainButton"
+                    android:textColor="@color/mainText"
                     android:text="Buy" />
 
                 <TextView
@@ -117,6 +125,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_height="30dp"
+                    android:textColor="@color/mainText"
                     android:textAlignment="center"
                     android:text="Temp"
                     android:textSize="20dp" />
@@ -127,6 +136,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/mainButton"
+                    android:textColor="@color/mainText"
                     android:text="Buy" />
 
             </LinearLayout>
@@ -143,6 +154,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_height="30dp"
+                    android:textColor="@color/mainText"
                     android:textAlignment="center"
                     android:text="Temp"
                     android:textSize="20dp" />
@@ -153,6 +165,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/mainButton"
+                    android:textColor="@color/mainText"
                     android:text="Buy" />
 
                 <TextView
@@ -162,6 +176,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_height="30dp"
+                    android:textColor="@color/mainText"
                     android:textAlignment="center"
                     android:text="Temp"
                     android:textSize="20dp" />
@@ -172,6 +187,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/mainButton"
+                    android:textColor="@color/mainText"
                     android:text="Buy" />
 
             </LinearLayout>
@@ -196,6 +213,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_height="30dp"
+                    android:textColor="@color/mainText"
                     android:textAlignment="center"
                     android:text="Temp"
                     android:textSize="20dp" />
@@ -206,6 +224,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/mainButton"
+                    android:textColor="@color/mainText"
                     android:text="Buy" />
 
                 <TextView
@@ -215,6 +235,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_height="30dp"
+                    android:textColor="@color/mainText"
                     android:textAlignment="center"
                     android:text="Temp"
                     android:textSize="20dp" />
@@ -225,6 +246,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/mainButton"
+                    android:textColor="@color/mainText"
                     android:text="Buy" />
 
             </LinearLayout>
@@ -242,6 +265,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_height="30dp"
+                    android:textColor="@color/mainText"
                     android:textAlignment="center"
                     android:text="Temp"
                     android:textSize="20dp" />
@@ -251,6 +275,8 @@
                     android:layout_width="match_parent"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
+                    android:backgroundTint="@color/mainButton"
+                    android:textColor="@color/mainText"
                     android:layout_height="wrap_content"
                     android:text="Buy" />
 
@@ -261,6 +287,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_height="30dp"
+                    android:textColor="@color/mainText"
                     android:textAlignment="center"
                     android:text="Temp"
                     android:textSize="20dp" />
@@ -270,6 +297,8 @@
                     android:layout_width="match_parent"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
+                    android:backgroundTint="@color/mainButton"
+                    android:textColor="@color/mainText"
                     android:layout_height="wrap_content"
                     android:text="Buy" />
 

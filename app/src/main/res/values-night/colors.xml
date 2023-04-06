@@ -14,23 +14,7 @@
     <color name="selected_background">#ffaa3f</color>
     <color name="default_background">#3d3d3d</color>
 
-    <color name="light_primary">#EED4F4</color>
-    <color name="light_secondary">#CBBDE4</color>
-    <color name="settingsSecondary">#CBBDE4</color>
-    <color name="settings1">#D168E4</color>
-
-
-    <color name="light_mode_primary">#EED4F4</color>
-    <color name="light_mode_secondary">#CBBDE4</color>
-    <color name="light_mode_text">#000000</color>
-
-    <color name="dark_mode_primary">#260387</color>
-    <color name="dark_mode_secondary">#2863C6</color>
-    <color name="dark_mode_text">#FFFFFFFF</color>
-
-
-    <color name="mainBackground">#3A3A3A</color>
-    <color name="mainText">#FFFFFF</color>
-    <color name="mainButton">#325C5A</color>
-
+    <color name="mainBackground">#FFFFFF</color>
+    <color name="mainText">#000000</color>
+    <color name="mainButton">#B18BF6</color>
 </resources>

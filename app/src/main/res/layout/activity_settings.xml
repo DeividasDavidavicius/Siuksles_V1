@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_primary"
+    android:background="@color/mainBackground"
     android:orientation="vertical"
     tools:context=".settingsActivity">
 
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="Settings"
             android:layout_centerInParent="true"
-            android:textColor="@color/black"
+            android:textColor="@color/mainText"
             android:textStyle="bold"
             android:textSize="18sp"/>
     </RelativeLayout>
@@ -50,7 +50,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:text="Username"
-                android:textColor="@color/black"
+                android:textColor="@color/mainText"
                 android:textSize="22sp"
                 android:textStyle="bold"/>
 
@@ -64,7 +64,8 @@
                 android:background="@drawable/round_back_white10_20"
                 android:text="Log out"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/mainText"
+                android:backgroundTint="@color/mainButton"
                 android:paddingEnd="30dp"/>
 
             <LinearLayout
@@ -98,7 +99,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_toEndOf="@+id/nightModeIcon"
                         android:text="Dark Theme"
-                        android:textColor="@color/black"
+                        android:textColor="@color/mainText"
                         android:textStyle="bold" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -132,7 +133,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_toEndOf="@+id/notificationsIcon"
                         android:text="Notifications"
-                        android:textColor="@color/black"
+                        android:textColor="@color/mainText"
                         android:textStyle="bold" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -178,7 +179,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_toEndOf="@+id/aboutUsIcon"
                         android:text="About Us"
-                        android:textColor="@color/black"
+                        android:textColor="@color/mainText"
                         android:textStyle="bold" />
 
                     <ImageButton
