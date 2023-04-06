@@ -155,7 +155,7 @@ public class mapActivity extends AppCompatActivity implements
                             .position(position)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                             .title(post.getName())
-                            .snippet("Click on me to get more information"));
+                            .snippet("Click here to see more info"));
                 }
             }
 

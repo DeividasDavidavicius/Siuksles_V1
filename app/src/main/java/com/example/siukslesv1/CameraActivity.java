@@ -156,7 +156,6 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String name = postName.getText().toString();
-                locationInfo = "lithuania";
 
                 if(name.matches(""))
                 {
