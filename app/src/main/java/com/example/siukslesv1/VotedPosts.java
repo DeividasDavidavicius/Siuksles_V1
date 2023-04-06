@@ -1,31 +1,13 @@
 package com.example.siukslesv1;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Binder;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.siukslesv1.databinding.ActivityMainBinding;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,37 +16,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+public class VotedPosts extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
-    ActivityMainBinding binding;
     FirebaseAuth auth;
     Button settingsButton;
-    Button votedPostsButton;
     Button profileButton;
     FirebaseUser user;
-
-    ImageView selectedImage;
-    Button cameraBtn;
-
-    RecyclerView postRecyclerView;
     PostAdapter postAdapter;
 
     RecyclerView PostRecyclerView;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-
     List<Post> postList;
-    TextView timer;
 
 
     @Override
@@ -80,35 +46,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_voted_posts);
 
 
         PostRecyclerView = findViewById(R.id.postRV);
-
-        //TIMERIS (REIKES PAKEIST, DABAR LAIKINAS)
-        timer = findViewById(R.id.timer);
-        long timerDuration = TimeUnit.MINUTES.toMillis(120);
-        new CountDownTimer(timerDuration, 1000)
-        {
-
-            @Override
-            public void onTick(long l) {
-                int hours = (int)(l/1000/60/60);
-                int minutes = (int) (l - hours * 60 * 60 * 1000)/(1000 * 60);
-                int seconds = (int) (l - minutes * 60 * 1000 - hours * 60 * 60 * 1000) / 1000;
-                timer.setText(hours + "h "+ minutes + "min " + seconds + "s");
-            }
-
-            @Override
-            public void onFinish() {
-                timer.setText("Done");
-            }
-        }.start();
-
-
-
         PostRecyclerView.setHasFixedSize(true);
-        PostRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        PostRecyclerView.setLayoutManager(new LinearLayoutManager(VotedPosts.this));
         firebaseDatabase = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = firebaseDatabase.getReference("posts");
 
@@ -121,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     Post post = postsnap.getValue(Post.class);
                     postList.add(post);
                 }
-                postAdapter = new PostAdapter(MainActivity.this,postList);
+                postAdapter = new PostAdapter(VotedPosts.this,postList);
                 Collections.reverse(postList);
                 PostRecyclerView.setAdapter(postAdapter);
             }
@@ -132,13 +75,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Initialize and assign variable
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
-
-        // Set Home selected
         bottomNavigationView.setSelectedItemId(R.id.home);
-
-        // Perform item selected listener
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
             switch(item.getItemId())
@@ -166,15 +104,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        votedPostsButton = findViewById(R.id.VotedPosts);
-        votedPostsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switchToVotedPosts();
-            }
-        });
-
-
         profileButton = findViewById(R.id.Profile);
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,20 +120,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-
-
-        // NUOTRAUKOS
-
-        //selectedImage = findViewById(R.id.displayImageView);
-        //cameraBtn = findViewById(R.id.cameraBtn);
-/*
-        cameraBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Camera Btn is Clicked", Toast.LENGTH_SHORT).show();
-            }
-        }); */
-
     }
     private void switchToSettings() {
         Intent switchActivityIntent = new Intent(this, settingsActivity.class);
@@ -212,11 +127,6 @@ public class MainActivity extends AppCompatActivity {
     }
     private void switchToProfile() {
         Intent switchActivityIntent = new Intent(this, profileActivity.class);
-        startActivity(switchActivityIntent);
-    }
-
-    private void switchToVotedPosts() {
-        Intent switchActivityIntent = new Intent(this, VotedPosts.class);
         startActivity(switchActivityIntent);
     }
 }
