@@ -29,10 +29,13 @@ public class PointsShopActivity extends AppCompatActivity {
 
     private TextView pointCountView;
     private FirebaseDatabase database;
-    private DatabaseReference userRef;
+    private DatabaseReference userRef, titleRef;
     private int pointCount;
+    private ArrayList<String> titles = new ArrayList<>();
+    private ArrayList<String> userTitles = new ArrayList<>();
     private DataSnapshot currentSnapshot;
     private static final String USERS = "user";
+    private static final String TITLES = "titles";
     String email;
     FirebaseAuth mAuth;
 
@@ -47,6 +50,15 @@ public class PointsShopActivity extends AppCompatActivity {
     Button buyButton7;
     Button buyButton8;
 
+    TextView textView1;
+    TextView textView2;
+    TextView textView3;
+    TextView textView4;
+    TextView textView5;
+    TextView textView6;
+    TextView textView7;
+    TextView textView8;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +69,52 @@ public class PointsShopActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
         userRef = database.getReference(USERS);
+        titleRef = database.getReference(TITLES);
+
+        settingsButton = findViewById(R.id.Settings);
+        buyButton1 = findViewById(R.id.buyButton1);
+        buyButton2 = findViewById(R.id.buyButton2);
+        buyButton3 = findViewById(R.id.buyButton3);
+        buyButton4 = findViewById(R.id.buyButton4);
+        buyButton5 = findViewById(R.id.buyButton5);
+        buyButton6 = findViewById(R.id.buyButton6);
+        buyButton7 = findViewById(R.id.buyButton7);
+        buyButton8 = findViewById(R.id.buyButton8);
+
+        textView1 = findViewById(R.id.buyView1);
+        textView2 = findViewById(R.id.buyView2);
+        textView3 = findViewById(R.id.buyView3);
+        textView4 = findViewById(R.id.buyView4);
+        textView5 = findViewById(R.id.buyView5);
+        textView6 = findViewById(R.id.buyView6);
+        textView7 = findViewById(R.id.buyView7);
+        textView8 = findViewById(R.id.buyView8);
 
         pointCountView = findViewById(R.id.pointCountView);
+
+        titleRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    titles.add(ds.getValue(String.class));
+                }
+
+                textView1.setText(titles.get(1));
+                textView2.setText(titles.get(2));
+                textView3.setText(titles.get(3));
+                textView4.setText(titles.get(4));
+                textView5.setText(titles.get(5));
+                textView6.setText(titles.get(6));
+                textView7.setText(titles.get(7));
+                textView8.setText(titles.get(8));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -71,6 +127,12 @@ public class PointsShopActivity extends AppCompatActivity {
                         String pointCountText = " " + String.valueOf(pointCount);
                         pointCountView.setText(pointCountText);
                         currentSnapshot = ds;
+
+                        userTitles.clear();
+
+                        for (DataSnapshot dsTitle : ds.child("titles").getChildren()){
+                            userTitles.add(dsTitle.getValue(String.class));
+                        }
                     }
                 }
             }
@@ -105,16 +167,6 @@ public class PointsShopActivity extends AppCompatActivity {
             return false;
         });
 
-        settingsButton = findViewById(R.id.Settings);
-        buyButton1 = findViewById(R.id.buyButton1);
-        buyButton2 = findViewById(R.id.buyButton2);
-        buyButton3 = findViewById(R.id.buyButton3);
-        buyButton4 = findViewById(R.id.buyButton4);
-        buyButton5 = findViewById(R.id.buyButton5);
-        buyButton6 = findViewById(R.id.buyButton6);
-        buyButton7 = findViewById(R.id.buyButton7);
-        buyButton8 = findViewById(R.id.buyButton8);
-
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,13 +178,29 @@ public class PointsShopActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String key = currentSnapshot.getKey();
+                boolean checkSame = false;
+                String currentTitle = textView1.getText().toString();
 
-                if(pointCount > 0){
+                for(int i = 0; i < userTitles.size(); i++){
+                    if(currentTitle.equals(userTitles.get(i))){
+                        checkSame = true;
+                    }
+                }
+
+                if(pointCount > 0 && !checkSame){
                     pointCount -= 1;
+                    userTitles.add(currentTitle);
                     userRef.child(key).child("points").setValue(pointCount);
+                    userRef.child(key).child("titles").setValue(userTitles);
+                }
+                else if (pointCount <= 0 && !checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+                else if(pointCount > 0 && checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -141,13 +209,29 @@ public class PointsShopActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String key = currentSnapshot.getKey();
+                boolean checkSame = false;
+                String currentTitle = textView2.getText().toString();
 
-                if(pointCount > 0){
+                for(int i = 0; i < userTitles.size(); i++){
+                    if(currentTitle.equals(userTitles.get(i))){
+                        checkSame = true;
+                    }
+                }
+
+                if(pointCount > 0 && !checkSame){
                     pointCount -= 1;
+                    userTitles.add(currentTitle);
                     userRef.child(key).child("points").setValue(pointCount);
+                    userRef.child(key).child("titles").setValue(userTitles);
+                }
+                else if (pointCount <= 0 && !checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+                else if(pointCount > 0 && checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -156,13 +240,29 @@ public class PointsShopActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String key = currentSnapshot.getKey();
+                boolean checkSame = false;
+                String currentTitle = textView3.getText().toString();
 
-                if(pointCount > 0){
+                for(int i = 0; i < userTitles.size(); i++){
+                    if(currentTitle.equals(userTitles.get(i))){
+                        checkSame = true;
+                    }
+                }
+
+                if(pointCount > 0 && !checkSame){
                     pointCount -= 1;
+                    userTitles.add(currentTitle);
                     userRef.child(key).child("points").setValue(pointCount);
+                    userRef.child(key).child("titles").setValue(userTitles);
+                }
+                else if (pointCount <= 0 && !checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+                else if(pointCount > 0 && checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -171,13 +271,29 @@ public class PointsShopActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String key = currentSnapshot.getKey();
+                boolean checkSame = false;
+                String currentTitle = textView4.getText().toString();
 
-                if(pointCount > 0){
+                for(int i = 0; i < userTitles.size(); i++){
+                    if(currentTitle.equals(userTitles.get(i))){
+                        checkSame = true;
+                    }
+                }
+
+                if(pointCount > 0 && !checkSame){
                     pointCount -= 1;
+                    userTitles.add(currentTitle);
                     userRef.child(key).child("points").setValue(pointCount);
+                    userRef.child(key).child("titles").setValue(userTitles);
+                }
+                else if (pointCount <= 0 && !checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+                else if(pointCount > 0 && checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -186,13 +302,29 @@ public class PointsShopActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String key = currentSnapshot.getKey();
+                boolean checkSame = false;
+                String currentTitle = textView5.getText().toString();
 
-                if(pointCount > 0){
+                for(int i = 0; i < userTitles.size(); i++){
+                    if(currentTitle.equals(userTitles.get(i))){
+                        checkSame = true;
+                    }
+                }
+
+                if(pointCount > 0 && !checkSame){
                     pointCount -= 1;
+                    userTitles.add(currentTitle);
                     userRef.child(key).child("points").setValue(pointCount);
+                    userRef.child(key).child("titles").setValue(userTitles);
+                }
+                else if (pointCount <= 0 && !checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+                else if(pointCount > 0 && checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -201,13 +333,29 @@ public class PointsShopActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String key = currentSnapshot.getKey();
+                boolean checkSame = false;
+                String currentTitle = textView6.getText().toString();
 
-                if(pointCount > 0){
+                for(int i = 0; i < userTitles.size(); i++){
+                    if(currentTitle.equals(userTitles.get(i))){
+                        checkSame = true;
+                    }
+                }
+
+                if(pointCount > 0 && !checkSame){
                     pointCount -= 1;
+                    userTitles.add(currentTitle);
                     userRef.child(key).child("points").setValue(pointCount);
+                    userRef.child(key).child("titles").setValue(userTitles);
+                }
+                else if (pointCount <= 0 && !checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+                else if(pointCount > 0 && checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -216,13 +364,29 @@ public class PointsShopActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String key = currentSnapshot.getKey();
+                boolean checkSame = false;
+                String currentTitle = textView7.getText().toString();
 
-                if(pointCount > 0){
+                for(int i = 0; i < userTitles.size(); i++){
+                    if(currentTitle.equals(userTitles.get(i))){
+                        checkSame = true;
+                    }
+                }
+
+                if(pointCount > 0 && !checkSame){
                     pointCount -= 1;
+                    userTitles.add(currentTitle);
                     userRef.child(key).child("points").setValue(pointCount);
+                    userRef.child(key).child("titles").setValue(userTitles);
+                }
+                else if (pointCount <= 0 && !checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                }
+                else if(pointCount > 0 && checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -231,43 +395,29 @@ public class PointsShopActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String key = currentSnapshot.getKey();
+                boolean checkSame = false;
+                String currentTitle = textView8.getText().toString();
 
-                if(pointCount > 0){
-                    pointCount -= 1;
-                    userRef.child(key).child("points").setValue(pointCount);
+                for(int i = 0; i < userTitles.size(); i++){
+                    if(currentTitle.equals(userTitles.get(i))){
+                        checkSame = true;
+                    }
                 }
-                else{
+
+                if(pointCount > 0 && !checkSame){
+                    pointCount -= 1;
+                    userTitles.add(currentTitle);
+                    userRef.child(key).child("points").setValue(pointCount);
+                    userRef.child(key).child("titles").setValue(userTitles);
+                }
+                else if (pointCount <= 0 && !checkSame){
                     Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-
-        buyButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String key = currentSnapshot.getKey();
-
-                if(pointCount > 0){
-                    pointCount -= 1;
-                    userRef.child(key).child("points").setValue(pointCount);
+                else if(pointCount > 0 && checkSame){
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        buyButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String key = currentSnapshot.getKey();
-
-                if(pointCount > 0){
-                    pointCount -= 1;
-                    userRef.child(key).child("points").setValue(pointCount);
-                }
-                else{
-                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

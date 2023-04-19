@@ -30,9 +30,8 @@ public class ProfileEditActivity extends AppCompatActivity {
     private TextInputEditText editTextUsername;
     private Spinner spinner;
     private FirebaseDatabase database;
-    private DatabaseReference userRef, titleRef;
+    private DatabaseReference userRef;
     private static final String USERS = "user";
-    private static final String TITLES = "titles";
     private ArrayList<String> titles = new ArrayList<>();
     private DataSnapshot currentSnapshot;
     String email;
@@ -51,7 +50,6 @@ public class ProfileEditActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
         userRef = database.getReference(USERS);
-        titleRef = database.getReference(TITLES);
 
         editTextUsername = findViewById(R.id.username);
         spinner = findViewById(R.id.titleSpinner);
@@ -64,8 +62,12 @@ public class ProfileEditActivity extends AppCompatActivity {
 
                     if (ds.child("email").getValue().equals(email)) {
                         String usernameTemp = ds.child("username").getValue(String.class);
-                        editTextUsername.setHint(usernameTemp);
+                        editTextUsername.setText(usernameTemp);
                         currentSnapshot = ds;
+
+                        for (DataSnapshot dsTitle : ds.child("titles").getChildren()){
+                            titles.add(dsTitle.getValue(String.class));
+                        }
                     }
                 }
             }
@@ -76,21 +78,7 @@ public class ProfileEditActivity extends AppCompatActivity {
             }
         });
 
-        titleRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    titles.add(ds.child("title").getValue(String.class));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+        titles.clear();
         titles.add("Choose title");
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, titles);

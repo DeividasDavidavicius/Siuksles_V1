@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -95,9 +98,11 @@ public class Register extends AppCompatActivity {
 
                 String username = editTextUsername.getText().toString();
                 String title = "Unaccomplished";
+                List<String> titles = new ArrayList<String>();
+                titles.add("Unaccomplished");
                 int points = 5;
 
-                user = new User(email, password, username, title, points);
+                user = new User(email, password, username, title, titles, points);
                 registerUser(email, password);
             }
         });
