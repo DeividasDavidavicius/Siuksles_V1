@@ -39,8 +39,10 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -53,19 +55,15 @@ public class MainActivity extends AppCompatActivity {
     Button profileButton;
     FirebaseUser user;
 
-    ImageView selectedImage;
-    Button cameraBtn;
-
-    RecyclerView postRecyclerView;
     PostAdapter postAdapter;
 
     RecyclerView PostRecyclerView;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-
+    DatabaseReference timerReference;
     List<Post> postList;
     TextView timer;
-
+    Date currentTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +77,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-
         setContentView(R.layout.activity_main);
-
 
         PostRecyclerView = findViewById(R.id.postRV);
 
@@ -105,12 +101,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
 
-
-
         PostRecyclerView.setHasFixedSize(true);
         PostRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         firebaseDatabase = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = firebaseDatabase.getReference("posts");
+
+        // TIMER LEFT
+        currentTime = Calendar.getInstance().getTime();
+        timerReference = firebaseDatabase.getReference("timer");
+        timerReference.child("timerDate").setValue(currentTime.toString());
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
