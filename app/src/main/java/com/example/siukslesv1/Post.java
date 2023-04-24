@@ -1,5 +1,6 @@
 package com.example.siukslesv1;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class Post {
@@ -11,16 +12,20 @@ public class Post {
     private int voteCount;
     private String postid;
 
+    private long creationTime;
+
+
     public Post() {
     }
 
-    public Post(String email, String name, String location, String uri, int type) {
+    public Post(String email, String name, String location, String uri, int type, long creationTime) {
         this.email = email;
         this.name = name;
         this.location = location;
         this.uri = uri;
         this.type = type;
         this.voteCount = 0;
+        this.creationTime = creationTime;
     }
 
     public String getEmail() {
@@ -35,5 +40,6 @@ public class Post {
     }
     public int getVoteCount() { return voteCount; }
     public String getPostid() { return postid; }
+    public long getTime(){return creationTime;}
 }
 

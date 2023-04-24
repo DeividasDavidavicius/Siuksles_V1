@@ -66,6 +66,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -185,7 +186,10 @@ public class CameraActivity extends AppCompatActivity {
                 UUID postID = generateKey();
                 String id = postID.toString();
 
-                post = new Post(email, name, locationInfo, imageUri, dumpSize);
+                Calendar calendar = Calendar.getInstance();
+                long currentTime = calendar.getTimeInMillis();
+
+                post = new Post(email, name, locationInfo, imageUri, dumpSize, currentTime);
 
                 String keyID = databaseReference.push().getKey();
                 databaseReference.child(keyID).setValue(post);

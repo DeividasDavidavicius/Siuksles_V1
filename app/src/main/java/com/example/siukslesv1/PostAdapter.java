@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.Image;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,11 +30,45 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Handler;
+
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
     Context mContext;
     List<Post> mData;
     FirebaseDatabase firebaseDatabase;
+
+private android.os.Handler handlerr = new android.os.Handler();
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            firebaseDatabase = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
+            DatabaseReference postRef = firebaseDatabase.getReference().child("posts");
+            postRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
+                        String postId = postSnapShot.getKey();
+                        PostAdapter.this.deletePostIfExpiredAndLowVotes(postId);
+                    }
+                    }
+
+
+                @Override
+                public void onCancelled(@androidx.annotation.NonNull DatabaseError error) {
+
+                }
+            });
+            handlerr.postDelayed(runnable, 10000000);
+        }
+    };
+    private void startRepeatingTask() {
+        runnable.run();
+    }
+    private void stopRepeatingTask() {
+        handlerr.removeCallbacks(runnable);
+    }
 
 
     public PostAdapter (Context mContext, List<Post> mData)
@@ -84,6 +118,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
                             String postId = dataSnapshot.getChildren().iterator().next().getKey();
+                            startRepeatingTask();
                             DatabaseReference postVoteRef = firebaseDatabase.getReference().child("post_votes").child(postId);
                             postVoteRef.child(holder.getCurrentUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -143,7 +178,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle;
         ImageView imgPost;
 
@@ -152,7 +187,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         Button voteButton;
 
 
-        public MyViewHolder(View itemView){
+        public MyViewHolder(View itemView) {
             super(itemView);
 
             tvTitle = itemView.findViewById(R.id.row_post_title);
@@ -160,6 +195,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             votes = itemView.findViewById(R.id.votes);
             voteButton = itemView.findViewById(R.id.VoteFor);
         }
+
         private String getCurrentUserId() {
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             FirebaseUser user = mAuth.getCurrentUser();
@@ -169,7 +205,33 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
                 return "";
             }
         }
+    }
+
+        private void deletePostIfExpiredAndLowVotes(String postId) {
+            firebaseDatabase = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
+            DatabaseReference postRef = firebaseDatabase.getReference().child("posts").child(postId);
+            postRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Post post = dataSnapshot.getValue(Post.class);
+                    if (post != null) {
+                        Calendar calendar = Calendar.getInstance();
+                        long currentTimeMillis = calendar.getTimeInMillis();
+                        long postTimeMillis = post.getTime();
+                        int postVoteCount = post.getVoteCount();
+                        if (currentTimeMillis - postTimeMillis < 604800000
+                        && postVoteCount < 5) {
+                           postRef.removeValue(); // Delete the post from Firebase
+                        }
+                    }
+             }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+        }
+
 
     }
 
-}
