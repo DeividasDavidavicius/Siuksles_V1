@@ -78,7 +78,6 @@ public class CameraActivity extends AppCompatActivity {
     public static final int CAMERA_REQUEST_CODE = 102;
     private static final int CAMERA_PERMISSION_CODE = 103;
     public static final int GALLERY_REQUEST_CODE = 105;
-
     public static final int LOCATION_REQUEST_CODE = 44;
     ImageView selectedImage;
     Button cameraBtn;
@@ -102,7 +101,6 @@ public class CameraActivity extends AppCompatActivity {
     private String locationInfo;
     private LocationRequest locationRequest;
     private FusedLocationProviderClient FusedLocationClient;
-
     private String realPhotoPath;
 
     @Override

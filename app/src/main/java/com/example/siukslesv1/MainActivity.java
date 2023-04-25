@@ -44,6 +44,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
@@ -61,9 +62,12 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     DatabaseReference timerReference;
+    DatabaseReference eventReference;
     List<Post> postList;
     TextView timer;
     Date currentTime;
+    private String email;
+    private Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         PostRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         firebaseDatabase = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = firebaseDatabase.getReference("posts");
+        eventReference = firebaseDatabase.getReference("events");
 
         // TIMER LEFT
         currentTime = Calendar.getInstance().getTime();
@@ -204,6 +209,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }); */
 
+        email = user.getEmail();
+        String eventID = UUID.randomUUID().toString();
+        Calendar calendar = Calendar.getInstance();
+        long currentEventTime = calendar.getTimeInMillis();
+        event = new Event(email, "Test1223", "Location", "https://firebasestorage.googleapis.com/v0/b/siuksliu-programele.appspot.com/o/images%2FJPEG_20230319_192028.jpg?alt=media&token=ec74a9ca-5983-453e-8c9f-93b0c7f6f656", 1, currentEventTime, eventID);
+        String keyID = eventReference.push().getKey();
+        eventReference.child(keyID).setValue(event);
     }
     private void switchToSettings() {
         Intent switchActivityIntent = new Intent(this, settingsActivity.class);

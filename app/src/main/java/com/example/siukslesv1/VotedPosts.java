@@ -25,12 +25,11 @@ public class VotedPosts extends AppCompatActivity {
     Button settingsButton;
     Button profileButton;
     FirebaseUser user;
-    PostAdapter postAdapter;
-
-    RecyclerView PostRecyclerView;
+    EventAdapter eventAdapter;
+    RecyclerView EventRecyclerView;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-    List<Post> postList;
+    List<Event> eventList;
 
 
     @Override
@@ -45,28 +44,26 @@ public class VotedPosts extends AppCompatActivity {
             finish();
         }
 
-
         setContentView(R.layout.activity_voted_posts);
 
-
-        PostRecyclerView = findViewById(R.id.postRV);
-        PostRecyclerView.setHasFixedSize(true);
-        PostRecyclerView.setLayoutManager(new LinearLayoutManager(VotedPosts.this));
+        EventRecyclerView = findViewById(R.id.eventRV);
+        EventRecyclerView.setHasFixedSize(true);
+        EventRecyclerView.setLayoutManager(new LinearLayoutManager(VotedPosts.this));
         firebaseDatabase = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
-        databaseReference = firebaseDatabase.getReference("posts");
+        databaseReference = firebaseDatabase.getReference("events");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                postList = new ArrayList<>();
+                eventList = new ArrayList<>();
 
-                for (DataSnapshot postsnap : snapshot.getChildren()){
-                    Post post = postsnap.getValue(Post.class);
-                    postList.add(post);
+                for (DataSnapshot eventsnap : snapshot.getChildren()){
+                    Event event = eventsnap.getValue(Event.class);
+                    eventList.add(event);
                 }
-                postAdapter = new PostAdapter(VotedPosts.this,postList);
-                Collections.reverse(postList);
-                PostRecyclerView.setAdapter(postAdapter);
+                eventAdapter = new EventAdapter(VotedPosts.this, eventList);
+                Collections.reverse(eventList);
+                EventRecyclerView.setAdapter(eventAdapter);
             }
 
             @Override
