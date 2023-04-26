@@ -10,12 +10,16 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 
@@ -53,12 +57,14 @@ public class mapActivity extends AppCompatActivity implements
         OnCameraMoveCanceledListener,
         OnCameraIdleListener,
         OnCameraMoveListener,
+        GoogleMap.OnMarkerClickListener,
         GoogleMap.OnInfoWindowClickListener {
 
     Button settingsButton;
     Button profileButton;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    private TextView distanceDisplay;
     private GoogleMap map;
     public static final int LOCATION_REQUEST_CODE = 44;
     List<Post> postList = new ArrayList<>();
@@ -72,7 +78,7 @@ public class mapActivity extends AppCompatActivity implements
 
         // Initialize and assign variable
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
+        distanceDisplay = findViewById(R.id.distance);
         // Set Home selected
         bottomNavigationView.setSelectedItemId(R.id.map);
 
@@ -153,9 +159,9 @@ public class mapActivity extends AppCompatActivity implements
                     LatLng position = new LatLng(lat, lon);
                     map.addMarker(new MarkerOptions()
                             .position(position)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeBitmap("trash", 112, 116)))
                             .title(post.getName())
-                            .snippet("Click here to see more info"));
+                            .snippet("Click me to see more info"));
                 }
             }
 
@@ -164,6 +170,7 @@ public class mapActivity extends AppCompatActivity implements
 
             }
         });
+        googleMap.setOnMarkerClickListener(this);
         googleMap.setOnInfoWindowClickListener(this);
     }
 
@@ -235,4 +242,29 @@ public class mapActivity extends AppCompatActivity implements
         // Launch the PostDetailActivity
         startActivity(intent);
     }
+
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 15f));
+        if (checkPermissions())
+        {
+            if (isLocationEnabled())
+            {
+                Location markerLoc = new Location("Marker");
+                markerLoc.setLatitude(marker.getPosition().latitude);
+                markerLoc.setLongitude(marker.getPosition().longitude);
+                double distance = map.getMyLocation().distanceTo(markerLoc);
+                distance = distance / 1000;
+                String distanceString = String.format("%.2f",distance);
+                distanceDisplay.setText("Distance: " + distanceString + "km");
+            }
+        }
+        return false;
+    }
+    public Bitmap resizeBitmap(String drawableName,int width, int height){
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(drawableName, "drawable", getPackageName()));
+        return Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+    }
+
 }
