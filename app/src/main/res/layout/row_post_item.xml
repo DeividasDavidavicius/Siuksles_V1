@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:text="TextView"
-        android:textColor="@color/mainText"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView2" />
@@ -43,22 +43,33 @@
         android:id="@+id/votes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="26dp"
+        android:layout_marginEnd="84dp"
+        android:background="@drawable/vote_count_background"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
         android:text="0"
-        android:textColor="@color/mainText"
+        android:textColor="@color/white"
+        android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="@+id/row_post_image"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.483" />
 
     <Button
         android:id="@+id/VoteFor"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginEnd="4dp"
-        android:background="@drawable/lb_ic_thumb_up"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/baseline_thumb_up_24"
+        android:foreground="@drawable/baseline_thumb_up_24"
         app:layout_constraintBottom_toBottomOf="@+id/row_post_image"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/mainButton"
-        app:layout_constraintTop_toTopOf="@+id/row_post_image" />
+        app:layout_constraintTop_toTopOf="@+id/row_post_image"
+        app:layout_constraintVertical_bias="0.9" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
