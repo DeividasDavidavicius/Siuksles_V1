@@ -64,10 +64,13 @@ public class mapActivity extends AppCompatActivity implements
     Button profileButton;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+
+    DatabaseReference databaseEventReference;
     private TextView distanceDisplay;
     private GoogleMap map;
     public static final int LOCATION_REQUEST_CODE = 44;
     List<Post> postList = new ArrayList<>();
+    List<Event> eventList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +144,7 @@ public class mapActivity extends AppCompatActivity implements
 
         firebaseDatabase = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = firebaseDatabase.getReference("posts");
+        databaseEventReference = firebaseDatabase.getReference("events");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -165,6 +169,34 @@ public class mapActivity extends AppCompatActivity implements
                 }
             }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        databaseEventReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot markerEvent : snapshot.getChildren()) {
+                    Event event = markerEvent.getValue(Event.class);
+                    eventList.add(event);
+                    assert event != null;
+                    String[] arrayOfStr = event.getLocation().split(" ", 5);
+                    for (int i = 0; i < arrayOfStr.length; i++)
+                    {
+                        arrayOfStr[i] = arrayOfStr[i].replace(',', '.');
+                    }
+                    double lat = Double.parseDouble(arrayOfStr[0]);
+                    double lon = Double.parseDouble(arrayOfStr[1]);
+                    LatLng position = new LatLng(lat, lon);
+                    map.addMarker(new MarkerOptions()
+                            .position(position)
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeBitmap("event", 156, 156)))
+                            .title(event.getName())
+                            .snippet("Event. Click for more info")
+                    );
+                }
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -228,19 +260,39 @@ public class mapActivity extends AppCompatActivity implements
     @Override
     public void onInfoWindowClick(@NonNull Marker marker) {
         // Create an Intent to launch the PostDetailActivity
-        Intent intent = new Intent(this, PostDetailsActivity.class);
+        Intent intentPost = new Intent(this, PostDetailsActivity.class);
+        Intent intentEvent = new Intent(this, EventDetailsActivity.class);
         // Add the post data to the Intent
+        boolean post = false;
+        boolean event = false;
         for (int i = 0; i < postList.size(); i++)
         {
             if (Objects.equals(marker.getTitle(), postList.get(i).getName())) {
-                intent.putExtra("post_title", postList.get(i).getName());
-                intent.putExtra("post_votes", String.valueOf(postList.get(i).getVoteCount()));
-                intent.putExtra("post_image", postList.get(i).getUri());
-                intent.putExtra("post_location", postList.get(i).getLocation());
+                intentPost.putExtra("post_title", postList.get(i).getName());
+                intentPost.putExtra("post_votes", String.valueOf(postList.get(i).getVoteCount()));
+                intentPost.putExtra("post_image", postList.get(i).getUri());
+                intentPost.putExtra("post_location", postList.get(i).getLocation());
+                post = true;
+            }
+        }
+        for (int i = 0; i < eventList.size(); i++)
+        {
+            if (Objects.equals(marker.getTitle(), eventList.get(i).getName())) {
+                intentEvent.putExtra("event_title", eventList.get(i).getName());
+                intentEvent.putExtra("event_image", eventList.get(i).getUri());
+                intentEvent.putExtra("event_location", eventList.get(i).getLocation());
+                event = true;
             }
         }
         // Launch the PostDetailActivity
-        startActivity(intent);
+        if (post)
+        {
+            startActivity(intentPost);
+        }
+        else if (event)
+        {
+            startActivity(intentEvent);
+        }
     }
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
