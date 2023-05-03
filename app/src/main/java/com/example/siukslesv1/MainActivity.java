@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
         timerReference = firebaseDatabase.getReference("timer");
         //timerReference.child("timerDate").setValue(cal.getTimeInMillis());
-        timerReference.child("timerDate").addListenerForSingleValueEvent(new ValueEventListener() {
+      timerReference.child("timerDate").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -188,6 +188,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         PostRecyclerView.setHasFixedSize(true);
         PostRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -198,6 +200,8 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot postsnap : snapshot.getChildren()){
                     Post post = postsnap.getValue(Post.class);
                     postList.add(post);
+                    int verticalSpaceHeight = getResources().getDimensionPixelSize(R.dimen.vertical_space);
+                   PostRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(verticalSpaceHeight));
                 }
                 postAdapter = new PostAdapter(MainActivity.this,postList);
                 Collections.reverse(postList);
