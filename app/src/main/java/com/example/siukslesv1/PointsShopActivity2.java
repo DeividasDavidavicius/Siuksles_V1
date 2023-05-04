@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class PointsShopActivity extends AppCompatActivity {
+public class PointsShopActivity2 extends AppCompatActivity {
 
     private TextView pointCountView;
     private FirebaseDatabase database;
@@ -46,12 +46,7 @@ public class PointsShopActivity extends AppCompatActivity {
     Button buyButton3;
     Button buyButton4;
 
-    Button nextPageButton;
-
-//    Button buyButton5;
-//    Button buyButton6;
-//    Button buyButton7;
-//    Button buyButton8;
+    Button previousButton;
 
     TextView textView1;
     TextView textView2;
@@ -66,7 +61,7 @@ public class PointsShopActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_points_shop);
+        setContentView(R.layout.activity_points_shop2);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser mUser = mAuth.getCurrentUser();
         email = mUser.getEmail();
@@ -80,33 +75,22 @@ public class PointsShopActivity extends AppCompatActivity {
         buyButton2 = findViewById(R.id.buyButton2);
         buyButton3 = findViewById(R.id.buyButton3);
         buyButton4 = findViewById(R.id.buyButton4);
-
-        nextPageButton = findViewById(R.id.nextButton);
-
-//        buyButton5 = findViewById(R.id.buyButton5);
-//        buyButton6 = findViewById(R.id.buyButton6);
-//        buyButton7 = findViewById(R.id.buyButton7);
-//        buyButton8 = findViewById(R.id.buyButton8);
+        previousButton = findViewById(R.id.previousButton);
 
         textView1 = findViewById(R.id.buyView1);
         textView2 = findViewById(R.id.buyView2);
         textView3 = findViewById(R.id.buyView3);
         textView4 = findViewById(R.id.buyView4);
 
-//        textView5 = findViewById(R.id.buyView5);
-//        textView6 = findViewById(R.id.buyView6);
-//        textView7 = findViewById(R.id.buyView7);
-//        textView8 = findViewById(R.id.buyView8);
-
         priceView1 = findViewById(R.id.priceView1);
         priceView2 = findViewById(R.id.priceView2);
         priceView3 = findViewById(R.id.priceView3);
         priceView4 = findViewById(R.id.priceView4);
 
-        priceView1.setText("5 points");
-        priceView2.setText("10 points");
-        priceView3.setText("25 points");
-        priceView4.setText("50 points");
+        priceView1.setText("100 points");
+        priceView2.setText("150 points");
+        priceView3.setText("200 points");
+        priceView4.setText("250 points");
 
         pointCountView = findViewById(R.id.pointCountView);
 
@@ -118,20 +102,15 @@ public class PointsShopActivity extends AppCompatActivity {
                     titles.add(ds.getValue(String.class));
                 }
 
-                textView1.setText(titles.get(1));
-                textView2.setText(titles.get(2));
-                textView3.setText(titles.get(3));
-                textView4.setText(titles.get(4));
+                textView1.setText(titles.get(5));
+                textView2.setText(titles.get(6));
+                textView3.setText(titles.get(7));
+                textView4.setText(titles.get(8));
 
 //                checkAlreadyBought(textView1, buyButton1);
 //                checkAlreadyBought(textView2, buyButton2);
 //                checkAlreadyBought(textView3, buyButton3);
 //                checkAlreadyBought(textView4, buyButton4);
-
-//                textView5.setText(titles.get(5));
-//                textView6.setText(titles.get(6));
-//                textView7.setText(titles.get(7));
-//                textView8.setText(titles.get(8));
             }
 
             @Override
@@ -168,10 +147,8 @@ public class PointsShopActivity extends AppCompatActivity {
             }
         });
 
-        // Initialize and assign variable
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
 
-        // Perform item selected listener
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
             switch(item.getItemId())
@@ -212,21 +189,21 @@ public class PointsShopActivity extends AppCompatActivity {
                     }
                 }
 
-                if(pointCount >= 5 && !checkSame){
-                    pointCount -= 5;
+                if(pointCount >= 100 && !checkSame){
+                    pointCount -= 100;
                     userTitles.add(currentTitle);
                     userRef.child(key).child("points").setValue(pointCount);
                     userRef.child(key).child("titles").setValue(userTitles);
-                    Toast.makeText(PointsShopActivity.this, "You successfully bought a title!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity2.this, "You successfully bought a title!", Toast.LENGTH_SHORT).show();
                 }
-                else if (pointCount < 5 && !checkSame){
-                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                else if (pointCount < 100 && !checkSame){
+                    Toast.makeText(PointsShopActivity2.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
                 }
-                else if(pointCount >= 5 && checkSame){
-                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
+                else if(pointCount >= 100 && checkSame){
+                    Toast.makeText(PointsShopActivity2.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity2.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -244,21 +221,21 @@ public class PointsShopActivity extends AppCompatActivity {
                     }
                 }
 
-                if(pointCount >= 10 && !checkSame){
-                    pointCount -= 10;
+                if(pointCount >= 150 && !checkSame){
+                    pointCount -= 150;
                     userTitles.add(currentTitle);
                     userRef.child(key).child("points").setValue(pointCount);
                     userRef.child(key).child("titles").setValue(userTitles);
-                    Toast.makeText(PointsShopActivity.this, "You successfully bought a title!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity2.this, "You successfully bought a title!", Toast.LENGTH_SHORT).show();
                 }
-                else if (pointCount < 10 && !checkSame){
-                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                else if (pointCount < 150 && !checkSame){
+                    Toast.makeText(PointsShopActivity2.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
                 }
-                else if(pointCount >= 10 && checkSame){
-                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
+                else if(pointCount >= 150 && checkSame){
+                    Toast.makeText(PointsShopActivity2.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity2.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -276,21 +253,21 @@ public class PointsShopActivity extends AppCompatActivity {
                     }
                 }
 
-                if(pointCount >= 25 && !checkSame){
-                    pointCount -= 25;
+                if(pointCount >= 200 && !checkSame){
+                    pointCount -= 200;
                     userTitles.add(currentTitle);
                     userRef.child(key).child("points").setValue(pointCount);
                     userRef.child(key).child("titles").setValue(userTitles);
-                    Toast.makeText(PointsShopActivity.this, "You successfully bought a title!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity2.this, "You successfully bought a title!", Toast.LENGTH_SHORT).show();
                 }
-                else if (pointCount < 25 && !checkSame){
-                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                else if (pointCount < 200 && !checkSame){
+                    Toast.makeText(PointsShopActivity2.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
                 }
-                else if(pointCount >= 25 && checkSame){
-                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
+                else if(pointCount >= 200 && checkSame){
+                    Toast.makeText(PointsShopActivity2.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity2.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -308,29 +285,29 @@ public class PointsShopActivity extends AppCompatActivity {
                     }
                 }
 
-                if(pointCount >= 50 && !checkSame){
-                    pointCount -= 50;
+                if(pointCount >= 250 && !checkSame){
+                    pointCount -= 250;
                     userTitles.add(currentTitle);
                     userRef.child(key).child("points").setValue(pointCount);
                     userRef.child(key).child("titles").setValue(userTitles);
-                    Toast.makeText(PointsShopActivity.this, "You successfully bought a title!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity2.this, "You successfully bought a title!", Toast.LENGTH_SHORT).show();
                 }
-                else if (pointCount < 50 && !checkSame){
-                    Toast.makeText(PointsShopActivity.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
+                else if (pointCount < 250 && !checkSame){
+                    Toast.makeText(PointsShopActivity2.this, "You don't have enough points!", Toast.LENGTH_SHORT).show();
                 }
-                else if(pointCount >= 50 && checkSame){
-                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
+                else if(pointCount >= 250 && checkSame){
+                    Toast.makeText(PointsShopActivity2.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(PointsShopActivity.this, "You already have this title!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PointsShopActivity2.this, "You already have this title!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        nextPageButton.setOnClickListener(new View.OnClickListener() {
+        previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchToNextPage();
+                switchToPrevious();
             }
         });
     }
@@ -339,8 +316,8 @@ public class PointsShopActivity extends AppCompatActivity {
         startActivity(switchActivityIntent);
     }
 
-    private void switchToNextPage() {
-        Intent switchActivityIntent = new Intent(this, PointsShopActivity2.class);
+    private void switchToPrevious() {
+        Intent switchActivityIntent = new Intent(this, PointsShopActivity.class);
         startActivity(switchActivityIntent);
     }
 

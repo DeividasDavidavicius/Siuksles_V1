@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PointsShopActivity"
+    tools:context=".PointsShopActivity2"
     android:background="@color/mainBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,18 +18,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Points Shop"
-            android:textColor="@color/mainText"
             android:textSize="40dp"
+            android:textColor="@color/mainText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.506"
+            />
 
         <TextView
             android:id="@+id/pointsShopPageCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Page 1/2"
+            android:text="Page 2/2"
             android:textColor="@color/mainText"
             android:textSize="30dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -366,10 +368,10 @@
 
 
             <Button
-                android:id="@+id/nextButton"
+                android:id="@+id/previousButton"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="Next page"
+                android:text="Previous page"
                 android:backgroundTint="@color/mainButton"
                 android:textColor="@color/mainText"
                 app:layout_constraintBottom_toBottomOf="parent"

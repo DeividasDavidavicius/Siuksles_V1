@@ -14,12 +14,16 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
     <style name="NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <style name="nightModeSwitch" parent="ThemeOverlay.AppCompat.Dark">
         <item name="colorControlActivated">#623421</item>
         <item name="colorSwitchThumbNormal">#FFFFFF</item>
