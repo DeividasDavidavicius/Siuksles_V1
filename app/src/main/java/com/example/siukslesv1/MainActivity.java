@@ -159,7 +159,9 @@ public class MainActivity extends AppCompatActivity {
                                                 String eventID = UUID.randomUUID().toString();
                                                 Calendar calendar = Calendar.getInstance();
                                                 long currentEventTime = calendar.getTimeInMillis();
-                                                event = new Event(post.getEmail(), post.getName(), post.getLocation(), post.getUri(), post.getType(), currentEventTime, eventID);
+                                                ArrayList<String> usList = new ArrayList<String>();
+                                                usList.add("Dovydas");
+                                                event = new Event(post.getEmail(), post.getName(), post.getLocation(), post.getUri(), post.getType(), currentEventTime, eventID, usList);
                                                 String keyID = eventReference.push().getKey();
                                                 eventReference.child(keyID).setValue(event);
                                                 postRef.removeValue(); // Delete the post from Firebase

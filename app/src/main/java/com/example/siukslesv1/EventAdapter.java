@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Handler;
@@ -119,6 +120,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
 
             tvTitle = itemView.findViewById(R.id.row_event_title);
             imgEvent = itemView.findViewById(R.id.row_event_image);
+            Button btnJoin = itemView.findViewById(R.id.Join);
+            btnJoin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    joinEvent(getAdapterPosition());
+                }
+            });
         }
 
         private String getCurrentUserId() {
@@ -155,6 +163,81 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         });
     }
 
+    private void joinEvent(int position) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
+        if (currentUser == null) {
+            // User is not logged in, show a message and return
+            Toast.makeText(mContext, "Please log in to join the event", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Event event = mData.get(position);
+        String eventId = event.getEventid();
+        firebaseDatabase = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
+        // Add the current user to the event's participants
+        DatabaseReference eventRef = firebaseDatabase.getReference().child("events");
+        Query query = eventRef.orderByChild("eventid").equalTo(eventId);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String eventID = dataSnapshot.getChildren().iterator().next().getKey();
+                DatabaseReference RefRef = firebaseDatabase.getReference().child("events").child(eventID).child("participants");
+                Log.d("sveiki", eventID);
+                RefRef.runTransaction(new Transaction.Handler() {
+                    @NonNull
+                    @Override
+                    public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                        Event event = mData.get(position);
+                        if (event == null) {
+                            return Transaction.success(mutableData);
+                        }
+
+                        // Check if the user is already a participant
+                        List<String> participants = event.getParticipants();
+                        if (participants != null && participants.contains(currentUser.getUid())) {
+                            return Transaction.success(mutableData);
+                        }
+
+                        // Add the user to the participants list
+                        if (participants == null) {
+                            participants = new ArrayList<>();
+                        }
+                        participants.add(getCurrentUserId());
+                        event.setParticipants(participants);
+                        mutableData.setValue(event.getParticipants());
+
+
+                        return Transaction.success(mutableData);
+                    }
+
+                    @Override
+                    public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
+                        if (databaseError == null) {
+                            Toast.makeText(mContext, "You have joined the event", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(mContext, "Failed to join the event: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
+
+            @Override
+            public void onCancelled(@androidx.annotation.NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private String getCurrentUserId() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            return user.getUid();
+        } else {
+            return "";
+        }
+    }
 }
 
