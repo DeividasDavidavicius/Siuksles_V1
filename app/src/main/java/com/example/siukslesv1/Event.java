@@ -13,10 +13,7 @@ public class Event {
     private int type;
     private String eventid;
     private long creationTime;
-
     private List<String> participants;
-
-
     public Event() {
     }
 
