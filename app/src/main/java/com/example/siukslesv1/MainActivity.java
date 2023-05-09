@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     DatabaseReference timerReference;
     DatabaseReference eventReference;
+    DatabaseReference userReference;
     List<Post> postList;
     TextView timer;
     long votingTime;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseReference = firebaseDatabase.getReference("posts");
         eventReference = firebaseDatabase.getReference("events");
+        userReference = firebaseDatabase.getReference("user");
 
         if(user == null) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
@@ -161,10 +163,39 @@ public class MainActivity extends AppCompatActivity {
                                                 long currentEventTime = calendar.getTimeInMillis();
                                                 ArrayList<String> usList = new ArrayList<String>();
                                                 usList.add("Dovydas");
-                                                event = new Event(post.getEmail(), post.getName(), post.getLocation(), post.getUri(), post.getType(), currentEventTime, eventID, usList);
+                                                String userEmail = post.getEmail();
+                                                event = new Event(userEmail, post.getName(), post.getLocation(), post.getUri(), post.getType(), currentEventTime, eventID, usList);
                                                 String keyID = eventReference.push().getKey();
                                                 eventReference.child(keyID).setValue(event);
                                                 postRef.removeValue();
+
+                                                userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@android.support.annotation.NonNull DataSnapshot dataSnapshot) {
+                                                        for(DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
+                                                            String userId = postSnapShot.getKey();
+                                                            DatabaseReference userRef = firebaseDatabase.getReference().child("user").child(userId);
+                                                            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(@android.support.annotation.NonNull DataSnapshot dataSnapshot) {
+                                                                    User user = dataSnapshot.getValue(User.class);
+                                                                    if(user.getEmail().equals(userEmail))
+                                                                    {
+                                                                        userRef.child("points").setValue(user.getPoints() + 10);
+                                                                    }
+                                                                }
+
+                                                                @Override
+                                                                public void onCancelled(@android.support.annotation.NonNull DatabaseError databaseError) {
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@android.support.annotation.NonNull DatabaseError databaseError) {
+                                                    }
+                                                });
                                             }
                                         }
                                     }
