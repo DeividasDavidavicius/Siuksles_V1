@@ -90,8 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
         PostRecyclerView = findViewById(R.id.postRV);
 
-        //TIMERIS (REIKES PAKEIST, DABAR LAIKINAS)
-
         TimeZone tz = TimeZone.getTimeZone("Europe/Vilnius");
         Calendar cal = Calendar.getInstance(tz);
         cal.set(2023, 3, 30, 12, 0, 0);
@@ -133,14 +131,16 @@ public class MainActivity extends AppCompatActivity {
       timerReference.child("timerDate").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
                 votingTime = dataSnapshot.getValue(Long.class);
                 long currentTimeMillis = Calendar.getInstance().getTimeInMillis();
 
                 if(currentTimeMillis > votingTime)
                 {
-                    timerReference.child("timerDate").setValue(votingTime + 604800000);
+                    while(votingTime < currentTimeMillis)
+                    {
+                        votingTime +=604800000;
+                    }
+                    timerReference.child("timerDate").setValue(votingTime);
 
                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                                                 event = new Event(post.getEmail(), post.getName(), post.getLocation(), post.getUri(), post.getType(), currentEventTime, eventID, usList);
                                                 String keyID = eventReference.push().getKey();
                                                 eventReference.child(keyID).setValue(event);
-                                                postRef.removeValue(); // Delete the post from Firebase
+                                                postRef.removeValue();
                                             }
                                         }
                                     }
@@ -185,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // This method is called when the read operation is cancelled.
                 System.out.println("Read cancelled: " + databaseError.getMessage());
             }
         });
