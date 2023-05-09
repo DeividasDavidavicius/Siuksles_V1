@@ -120,22 +120,6 @@ public class CameraActivity extends AppCompatActivity {
 
 
 
-        /*try {
-            ModelPvp model = ModelPvp.newInstance(context);
-
-            // Creates inputs for reference.
-            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
-            inputFeature0.loadBuffer(byteBuffer);
-
-            // Runs model inference and gets result.
-            ModelPvp.Outputs outputs = model.process(inputFeature0);
-            TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
-
-            // Releases model resources if no longer used.
-            model.close();
-        } catch (IOException e) {
-            // TODO Handle the exception
-        }*/
 
         //kvieciant locationa submite nespeja requestai suvaiksciot.
         FusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -218,7 +202,6 @@ public class CameraActivity extends AppCompatActivity {
                     if (label == "netvarkoma")
                     {
                         Toast toast = Toast.makeText(getApplicationContext(), "We didn't detect any trash in the picture you uploaded. To ensure that the contents of your photo are clear and visible, try adjusting the lighting or angle of your shot.", Toast.LENGTH_LONG);
-                        toast.setDuration(5000);
                         toast.show();
                         return;
                     }
@@ -230,7 +213,7 @@ public class CameraActivity extends AppCompatActivity {
 
 
 
-                /*if(name.matches(""))
+                if(name.matches(""))
                 {
                     Toast.makeText(CameraActivity.this, "Post must have a name!", Toast.LENGTH_SHORT).show();
                     return;
@@ -251,7 +234,7 @@ public class CameraActivity extends AppCompatActivity {
                 if(realPhotoPath!=null)
                 {
                     locationInfo=getLocationFromImage(realPhotoPath);
-                }*/
+                }
 
 
                 //Creating unique ID for post
