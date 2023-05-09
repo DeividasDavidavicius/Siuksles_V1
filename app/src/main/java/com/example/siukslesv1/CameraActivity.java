@@ -3,13 +3,16 @@ package com.example.siukslesv1;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Camera;
 import android.location.Location;
 import android.location.LocationManager;
@@ -38,6 +41,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.siukslesv1.ml.Modelis;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -63,6 +67,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.Interpreter;
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -71,6 +79,8 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+
+
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -102,10 +112,30 @@ public class CameraActivity extends AppCompatActivity {
     private LocationRequest locationRequest;
     private FusedLocationProviderClient FusedLocationClient;
     private String realPhotoPath;
+    private String realPhotoPathCamera;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+        /*try {
+            ModelPvp model = ModelPvp.newInstance(context);
+
+            // Creates inputs for reference.
+            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
+            inputFeature0.loadBuffer(byteBuffer);
+
+            // Runs model inference and gets result.
+            ModelPvp.Outputs outputs = model.process(inputFeature0);
+            TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
+
+            // Releases model resources if no longer used.
+            model.close();
+        } catch (IOException e) {
+            // TODO Handle the exception
+        }*/
 
         //kvieciant locationa submite nespeja requestai suvaiksciot.
         FusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -156,7 +186,51 @@ public class CameraActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String name = postName.getText().toString();
 
-                if(name.matches(""))
+                try {
+                    Modelis tflite = Modelis.newInstance(getApplicationContext());
+                    Bitmap bitmap;
+                    if (realPhotoPathCamera != null) {
+                        bitmap = BitmapFactory.decodeFile(realPhotoPathCamera);
+                    } else {
+                        bitmap = BitmapFactory.decodeFile(realPhotoPath);
+                    }
+
+                    Bitmap resized = Bitmap.createScaledBitmap(bitmap, 224, 224, true);
+                    int[] pixels = new int[224 * 224];
+                    resized.getPixels(pixels, 0, resized.getWidth(), 0, 0, resized.getWidth(), resized.getHeight());
+
+                    float[] input = new float[224 * 224 * 3];
+                    for (int i = 0; i < pixels.length; ++i) {
+                        final int val = pixels[i];
+                        input[i * 3 + 0] = (float) ((val & 0xFF) / 255.0);
+                        input[i * 3 + 1] = (float) (((val >> 8) & 0xFF) / 255.0);
+                        input[i * 3 + 2] = (float) (((val >> 16) & 0xFF) / 255.0);
+                    }
+
+                    TensorBuffer inputTensor = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
+                    inputTensor.loadArray(input);
+
+                    Modelis.Outputs outputs = tflite.process(inputTensor);
+                    TensorBuffer outputTensor = outputs.getOutputFeature0AsTensorBuffer();
+                    //TensorBuffer outputTensor = outputs.getOutputFeature0().getOutputAsTensorBuffer();
+
+                    String label = (outputTensor.getFloatValue(0) > 0.5) ? "tvarkoma" : "netvarkoma";
+                    if (label == "netvarkoma")
+                    {
+                        Toast toast = Toast.makeText(getApplicationContext(), "We didn't detect any trash in the picture you uploaded. To ensure that the contents of your photo are clear and visible, try adjusting the lighting or angle of your shot.", Toast.LENGTH_LONG);
+                        toast.setDuration(5000);
+                        toast.show();
+                        return;
+                    }
+
+                    tflite.close();
+                } catch (Exception e) {
+                    // TODO Handle the exception
+                }
+
+
+
+                /*if(name.matches(""))
                 {
                     Toast.makeText(CameraActivity.this, "Post must have a name!", Toast.LENGTH_SHORT).show();
                     return;
@@ -177,7 +251,7 @@ public class CameraActivity extends AppCompatActivity {
                 if(realPhotoPath!=null)
                 {
                     locationInfo=getLocationFromImage(realPhotoPath);
-                }
+                }*/
 
 
                 //Creating unique ID for post
@@ -346,6 +420,7 @@ public class CameraActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == CAMERA_REQUEST_CODE) {
             if(resultCode == Activity.RESULT_OK) {
+                realPhotoPathCamera= currentPhotoPath;
                 File f = new File(currentPhotoPath);
                 //selectedImage.setImageURI(Uri.fromFile(f));
                 Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(f));
