@@ -39,6 +39,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -92,6 +93,14 @@ public class MainActivity extends AppCompatActivity {
 
         PostRecyclerView = findViewById(R.id.postRV);
 
+        Calendar startCalendar = Calendar.getInstance();
+        long A = startCalendar.getTimeInMillis();
+        startCalendar.setTimeInMillis(A);
+        Date startDate = startCalendar.getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        String startDateText = formatter.format(startDate);
+
         TimeZone tz = TimeZone.getTimeZone("Europe/Vilnius");
         Calendar cal = Calendar.getInstance(tz);
         cal.set(2023, 3, 30, 12, 0, 0);
@@ -129,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         timerReference = firebaseDatabase.getReference("timer");
-        timerReference.child("timerDate").setValue(cal.getTimeInMillis());
+        //timerReference.child("timerDate").setValue(cal.getTimeInMillis());
       timerReference.child("timerDate").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -142,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     {
                         votingTime +=604800000;
                     }
-                    final long[] eventStartTime = {votingTime - 604800000};
+                    final long[] eventStartTime = {votingTime - 604800000 + 86400000};
                     final int[] eventCount = {0};
                     timerReference.child("timerDate").setValue(votingTime);
 

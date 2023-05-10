@@ -12,24 +12,24 @@ public class Event {
     private String uri;
     private int type;
     private String eventid;
-    private long creationTime;
+    private long time;
     private List<String> participants;
-    private long eventstart;
-    private long eventend;
+    private long start;
+    private long end;
     public Event() {
     }
 
-    public Event(String email, String name, String location, String uri, int type, long creationTime, String eventid, List<String> participants, long eventstart, long eventend) {
+    public Event(String email, String name, String location, String uri, int type, long time, String eventid, List<String> participants, long start, long end) {
         this.email = email;
         this.name = name;
         this.location = location;
         this.uri = uri;
         this.type = type;
-        this.creationTime = creationTime;
+        this.time = time;
         this.eventid = eventid;
         this.participants = participants;
-        this.eventstart = eventstart;
-        this.eventend = eventend;
+        this.start = start;
+        this.end = end;
     }
 
     public String getEmail() {
@@ -40,9 +40,9 @@ public class Event {
     public String getLocation() { return location; }
     public int getType() { return type; }
     public String getEventid() { return eventid; }
-    public long getTime(){return creationTime;}
-    public long getStart() {return eventstart; }
-    public long getEnd() {return eventend;}
+    public long getTime(){return time;}
+    public long getStart() {return start; }
+    public long getEnd() {return end;}
 
     public void addParticipant(String userId)
     {

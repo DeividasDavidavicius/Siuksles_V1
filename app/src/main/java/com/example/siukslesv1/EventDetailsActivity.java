@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,10 +30,15 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class EventDetailsActivity extends AppCompatActivity {
     private TextView mTitleTextView;
     private TextView locationTextView;
+    private TextView startTextView;
+    private TextView endTextView;
     private ImageView imageEventView;
     FirebaseDatabase firebaseDatabase;
     Context mContext;
@@ -46,13 +52,36 @@ public class EventDetailsActivity extends AppCompatActivity {
         String eventTitle = getIntent().getStringExtra("event_title");
         String eventLocation = getIntent().getStringExtra("event_location");
         String imageEvent = getIntent().getStringExtra("event_image");
+        String eventStart = getIntent().getStringExtra("event_start");
+        String eventEnd = getIntent().getStringExtra("event_end");
+        long eventStartLong = Long.valueOf(eventStart);
+        long eventEndLong = Long.valueOf(eventEnd);
+
 
         // Initialize the views in the layout
         mTitleTextView = findViewById(R.id.row_event_title);
         locationTextView = findViewById(R.id.event_location);
         imageEventView = findViewById(R.id.row_event_image);
+        startTextView = findViewById(R.id.row_event_start);
+        endTextView = findViewById(R.id.row_event_end);
+
+        // Transform data
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTimeInMillis(eventStartLong);
+        Date startDate = startCalendar.getTime();
+        String startDateText = formatter.format(startDate);
+
+        Calendar endCalendar = Calendar.getInstance();
+        endCalendar.setTimeInMillis(eventEndLong);
+        Date endDate = endCalendar.getTime();
+        String endDateString = formatter.format(endDate);
 
         // Set the views with the event data
+        startTextView.setText(startDateText);
+        endTextView.setText(endDateString);
         mTitleTextView.setText(eventTitle);
         locationTextView.setText(eventLocation);
         Picasso.get().load(imageEvent).into(imageEventView);

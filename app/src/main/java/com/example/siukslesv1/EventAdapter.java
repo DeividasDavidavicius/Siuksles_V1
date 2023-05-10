@@ -95,6 +95,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
                 intent.putExtra("event_title", mData.get(position).getName());
                 intent.putExtra("event_image", mData.get(position).getUri());
                 intent.putExtra("event_location", mData.get(position).getLocation());
+                intent.putExtra("event_start", String.valueOf(mData.get(position).getStart()));
+                intent.putExtra("event_end", String.valueOf(mData.get(position).getEnd()));
 
                 // Launch the EventDetailActivity
                 mContext.startActivity(intent);
