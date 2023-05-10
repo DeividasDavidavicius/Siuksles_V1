@@ -93,14 +93,6 @@ public class MainActivity extends AppCompatActivity {
 
         PostRecyclerView = findViewById(R.id.postRV);
 
-        Calendar startCalendar = Calendar.getInstance();
-        long A = startCalendar.getTimeInMillis();
-        startCalendar.setTimeInMillis(A);
-        Date startDate = startCalendar.getTime();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
-        String startDateText = formatter.format(startDate);
-
         TimeZone tz = TimeZone.getTimeZone("Europe/Vilnius");
         Calendar cal = Calendar.getInstance(tz);
         cal.set(2023, 3, 30, 12, 0, 0);
