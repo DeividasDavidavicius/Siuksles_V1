@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         timerReference = firebaseDatabase.getReference("timer");
-        //timerReference.child("timerDate").setValue(cal.getTimeInMillis());
+        timerReference.child("timerDate").setValue(cal.getTimeInMillis());
       timerReference.child("timerDate").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -142,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
                     {
                         votingTime +=604800000;
                     }
+                    final long[] eventStartTime = {votingTime - 604800000};
+                    final int[] eventCount = {0};
                     timerReference.child("timerDate").setValue(votingTime);
 
                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -164,7 +166,23 @@ public class MainActivity extends AppCompatActivity {
                                                 ArrayList<String> usList = new ArrayList<String>();
                                                 usList.add("Dovydas");
                                                 String userEmail = post.getEmail();
-                                                event = new Event(userEmail, post.getName(), post.getLocation(), post.getUri(), post.getType(), currentEventTime, eventID, usList);
+
+                                                if(eventCount[0] != 0 && eventCount[0] % 3 == 0)
+                                                {
+                                                    eventStartTime[0] += 64800000;
+                                                    eventCount[0]++;
+                                                }
+                                                else if (eventCount[0] != 0)
+                                                {
+                                                    eventStartTime[0] += 10800000;
+                                                    eventCount[0]++;
+                                                }
+                                                else if(eventCount[0] == 0)
+                                                {
+                                                    eventCount[0]++;
+                                                }
+
+                                                event = new Event(userEmail, post.getName(), post.getLocation(), post.getUri(), post.getType(), currentEventTime, eventID, usList, eventStartTime[0], eventStartTime[0] + 10800000);
                                                 String keyID = eventReference.push().getKey();
                                                 eventReference.child(keyID).setValue(event);
                                                 postRef.removeValue();
@@ -318,15 +336,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }); */
 
-        /*
+        Post tempPost;
         email = user.getEmail();
         String eventID = UUID.randomUUID().toString();
-        Calendar calendar = Calendar.getInstance();
-        long currentEventTime = calendar.getTimeInMillis();
+        Calendar calendar2 = Calendar.getInstance();
+        long currentEventTime = calendar2.getTimeInMillis();
         //Log.d("tag", String.valueOf("Laikas" + currentEventTime));
-        event = new Event(email, "Test1223", "Location", "https://firebasestorage.googleapis.com/v0/b/siuksliu-programele.appspot.com/o/images%2FJPEG_20230319_192028.jpg?alt=media&token=ec74a9ca-5983-453e-8c9f-93b0c7f6f656", 1, currentEventTime, eventID);
-        String keyID = eventReference.push().getKey();
-        eventReference.child(keyID).setValue(event); */
+        tempPost = new Post(email, "Test1223", "Location", "https://firebasestorage.googleapis.com/v0/b/siuksliu-programele.appspot.com/o/images%2FJPEG_20230319_192028.jpg?alt=media&token=ec74a9ca-5983-453e-8c9f-93b0c7f6f656", 1, currentEventTime);
+        String keyID = databaseReference.push().getKey();
+        databaseReference.child(keyID).setValue(tempPost);
     }
     private void switchToSettings() {
         Intent switchActivityIntent = new Intent(this, settingsActivity.class);
