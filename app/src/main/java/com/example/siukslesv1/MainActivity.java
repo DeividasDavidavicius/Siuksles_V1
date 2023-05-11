@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
                     Post post = postsnap.getValue(Post.class);
                     postList.add(post);
                     int verticalSpaceHeight = getResources().getDimensionPixelSize(R.dimen.vertical_space);
-                   PostRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(verticalSpaceHeight));
+                   PostRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(1));
                 }
                 postAdapter = new PostAdapter(MainActivity.this,postList);
                 Collections.reverse(postList);
