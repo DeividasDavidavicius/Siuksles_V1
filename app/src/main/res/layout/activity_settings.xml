@@ -28,6 +28,7 @@
             android:textSize="18sp"/>
     </RelativeLayout>
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -36,24 +37,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/profile_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:text="Username"
-                android:textColor="@color/mainText"
-                android:textSize="22sp"
-                android:textStyle="bold"/>
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/logout"
                 android:layout_width="wrap_content"
@@ -194,6 +177,7 @@
 
             </LinearLayout>
         </LinearLayout>
+
 
     </ScrollView>
 </LinearLayout>

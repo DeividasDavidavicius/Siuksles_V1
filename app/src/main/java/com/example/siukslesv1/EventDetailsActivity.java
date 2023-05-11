@@ -52,11 +52,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         String eventTitle = getIntent().getStringExtra("event_title");
         String eventLocation = getIntent().getStringExtra("event_location");
         String imageEvent = getIntent().getStringExtra("event_image");
-        String eventStart = getIntent().getStringExtra("event_start");
-        String eventEnd = getIntent().getStringExtra("event_end");
-        long eventStartLong = Long.valueOf(eventStart);
-        long eventEndLong = Long.valueOf(eventEnd);
-
+        Long eventStart = getIntent().getLongExtra("event_start", 0);
+        Long eventEnd = getIntent().getLongExtra("event_end", 0);
 
         // Initialize the views in the layout
         mTitleTextView = findViewById(R.id.row_event_title);
@@ -70,12 +67,12 @@ public class EventDetailsActivity extends AppCompatActivity {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
         Calendar startCalendar = Calendar.getInstance();
-        startCalendar.setTimeInMillis(eventStartLong);
+        startCalendar.setTimeInMillis(eventStart);
         Date startDate = startCalendar.getTime();
         String startDateText = formatter.format(startDate);
 
         Calendar endCalendar = Calendar.getInstance();
-        endCalendar.setTimeInMillis(eventEndLong);
+        endCalendar.setTimeInMillis(eventEnd);
         Date endDate = endCalendar.getTime();
         String endDateString = formatter.format(endDate);
 

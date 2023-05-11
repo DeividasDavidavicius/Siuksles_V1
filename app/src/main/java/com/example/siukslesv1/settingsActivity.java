@@ -40,6 +40,7 @@ public class settingsActivity extends AppCompatActivity {
         aboutUsButton = (ImageButton) findViewById(R.id.aboutUs);
         logoutButton = (androidx.appcompat.widget.AppCompatButton) findViewById(R.id.logout);
         themeBtn = (androidx.appcompat.widget.SwitchCompat) findViewById(R.id.switchBtn);
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

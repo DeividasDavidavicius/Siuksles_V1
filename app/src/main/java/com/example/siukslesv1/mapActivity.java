@@ -281,6 +281,8 @@ public class mapActivity extends AppCompatActivity implements
                 intentEvent.putExtra("event_title", eventList.get(i).getName());
                 intentEvent.putExtra("event_image", eventList.get(i).getUri());
                 intentEvent.putExtra("event_location", eventList.get(i).getLocation());
+                intentEvent.putExtra("event_start", eventList.get(i).getStart());
+                intentEvent.putExtra("event_end", eventList.get(i).getEnd());
                 event = true;
             }
         }

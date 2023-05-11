@@ -17,18 +17,17 @@ public class aboutUsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Element adsElement = new Element();
-        adsElement.setTitle("bbzn");
+        adsElement.setTitle("About us");
 
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
                 .setImage(R.drawable.logo)
-                .setDescription("We hope to reduce the pollution in our world!")
-                .addItem(new Element().setTitle("Version 1.0"))
-                .addGroup("Connect with us")
-                .addEmail("siukslesrenkam@gmail.com")
-                .addWebsite("http://edmtdev.com")
-                .addFacebook("EDMTDev")
-                .addTwitter("My Twitter")
+                .setDescription("Trashify - making a world a better place by reducing the polution in our country.")
+                .addGroup("Follow us on social media!")
+                .addEmail("Trashify@gmail.com")
+                .addFacebook("Trashify")
+                .addTwitter("Trashify")
+                .addInstagram("Trashify")
                 .create();
         setContentView(aboutPage);
 
