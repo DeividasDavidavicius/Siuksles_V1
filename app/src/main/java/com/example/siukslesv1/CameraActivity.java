@@ -198,7 +198,7 @@ public class CameraActivity extends AppCompatActivity {
                     TensorBuffer outputTensor = outputs.getOutputFeature0AsTensorBuffer();
                     //TensorBuffer outputTensor = outputs.getOutputFeature0().getOutputAsTensorBuffer();
 
-                    String label = (outputTensor.getFloatValue(0) > 0.5) ? "tvarkoma" : "netvarkoma";
+                    String label = (outputTensor.getFloatValue(0) > 0.85) ? "tvarkoma" : "netvarkoma";
                     if (label == "netvarkoma")
                     {
                         Toast toast = Toast.makeText(getApplicationContext(), "We didn't detect any trash in the picture you uploaded. To ensure that the contents of your photo are clear and visible, try adjusting the lighting or angle of your shot.", Toast.LENGTH_LONG);
