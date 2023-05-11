@@ -337,6 +337,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }); */
 
+        /*
         Post tempPost;
         email = user.getEmail();
         String eventID = UUID.randomUUID().toString();
@@ -345,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
         //Log.d("tag", String.valueOf("Laikas" + currentEventTime));
         tempPost = new Post(email, "Test1223", "Location", "https://firebasestorage.googleapis.com/v0/b/siuksliu-programele.appspot.com/o/images%2FJPEG_20230319_192028.jpg?alt=media&token=ec74a9ca-5983-453e-8c9f-93b0c7f6f656", 1, currentEventTime);
         String keyID = databaseReference.push().getKey();
-        databaseReference.child(keyID).setValue(tempPost);
+        databaseReference.child(keyID).setValue(tempPost); */
     }
     private void switchToSettings() {
         Intent switchActivityIntent = new Intent(this, settingsActivity.class);
