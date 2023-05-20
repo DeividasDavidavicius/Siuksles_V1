@@ -89,6 +89,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="520dp"
         android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/mainButton"
+        android:textColor="@color/mainText"
         android:text="Submit" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -116,5 +118,6 @@
         android:text="Profile"
         android:textColor="@color/mainText"
         android:backgroundTint="@color/mainButton"
+        android:layout_marginLeft="5dp"
         />
 </RelativeLayout>

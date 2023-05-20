@@ -54,6 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
             android:textSize="25dp"
+            android:textColor="@color/mainText"
+            android:layout_marginBottom="40dp"
             android:hint="" />
 
         <TextView
@@ -71,6 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25dp"
+            android:layout_marginBottom="40dp"
             android:layout_weight="0.25" />
     </LinearLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
