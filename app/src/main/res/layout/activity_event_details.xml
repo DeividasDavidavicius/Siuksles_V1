@@ -3,31 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="800dp"
+    android:layout_height="match_parent"
     android:background="@color/mainBackground">
 
     <ImageView
         android:id="@+id/row_event_image"
-        android:layout_width="407dp"
-        android:layout_height="678dp"
+        android:layout_width="459dp"
+        android:layout_height="338dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.001"
         app:srcCompat="@drawable/ic_launcher_background" />
+
 
     <TextView
         android:id="@+id/row_event_title"
-        android:layout_width="139dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="224dp"
-        android:layout_marginTop="160dp"
+        android:layout_width="137dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="172dp"
+        android:layout_marginTop="372dp"
         android:text="TextView"
         android:textColor="@color/mainText"
-        android:textSize="32dp"
+        android:textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,36 +36,34 @@
         android:layout_width="320dp"
         android:layout_height="42dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="270dp"
+        android:layout_marginTop="436dp"
         android:text="TextView"
         android:textColor="@color/mainText"
-        android:textSize="32dp"
+        android:textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <TextView
         android:id="@+id/row_event_end"
         android:layout_width="320dp"
         android:layout_height="42dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="370dp"
+        android:layout_marginTop="512dp"
         android:text="TextView"
         android:textColor="@color/mainText"
-        android:textSize="32dp"
+        android:textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <TextView
         android:id="@+id/event_location"
-        android:layout_width="305dp"
-        android:layout_height="93dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="84dp"
+        android:layout_width="295dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="340dp"
         android:text="TextView"
         android:textColor="@color/mainText"
-        android:textSize="32dp"
+        android:textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,10 +72,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="372dp"
         android:text="Pavadinimas:"
         android:textColor="@color/mainText"
-        android:textSize="32dp"
+        android:textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -86,10 +84,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="404dp"
         android:text="Pradžios laikas:"
         android:textColor="@color/mainText"
-        android:textSize="32dp"
+        android:textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -98,10 +96,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="480dp"
         android:text="Pabaigos laikas:"
         android:textColor="@color/mainText"
-        android:textSize="32dp"
+        android:textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -110,22 +108,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="340dp"
         android:text="Vietovė:"
         android:textColor="@color/mainText"
-        android:textSize="32dp"
+        android:textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
-        android:layout_width="414dp"
-        android:layout_height="70dp"
+        android:layout_width="455dp"
+        android:layout_height="69dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="115dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/row_event_image"
         app:menu="@menu/bottom_nav_menu"
-        tools:layout_editor_absoluteX="-2dp" />
+        tools:layout_editor_absoluteX="2dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
