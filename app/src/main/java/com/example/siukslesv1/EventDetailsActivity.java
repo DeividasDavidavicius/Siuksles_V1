@@ -49,6 +49,10 @@ public class EventDetailsActivity extends AppCompatActivity {
     Context mContext;
     Button vote;
     DatabaseReference userReference;
+    String message;
+    long eventStart;
+    long eventEnd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +63,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         String eventTitle = getIntent().getStringExtra("event_title");
         String eventLocation = getIntent().getStringExtra("event_location");
         String imageEvent = getIntent().getStringExtra("event_image");
-        Long eventStart = getIntent().getLongExtra("event_start", 0);
-        Long eventEnd = getIntent().getLongExtra("event_end", 0);
+        eventStart = getIntent().getLongExtra("event_start", 0);
+        eventEnd = getIntent().getLongExtra("event_end", 0);
 
         // Initialize the views in the layout
         mTitleTextView = findViewById(R.id.row_event_title);
@@ -155,8 +159,18 @@ public class EventDetailsActivity extends AppCompatActivity {
                             participants = new ArrayList<>();
                         }
 
-                        // Check if the user is already a participant
+
+                            // Check if the user is already a participant
                         if (participants.contains(currentUser.getUid())) {
+                            message = "You have already joined the event";
+                            return Transaction.success(mutableData);
+                        }
+
+
+                        long currentTimeMillis = Calendar.getInstance().getTimeInMillis();
+
+                        if(currentTimeMillis > eventStart || currentTimeMillis < eventEnd) {
+                            message = "Event hasn't started yet";
                             return Transaction.success(mutableData);
                         }
 
@@ -189,6 +203,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                             }
                         });
 
+                        message = "You have joined the event";
                         // Add the user to the participants list
                         participants.add(currentUser.getUid());
                         mutableData.setValue(participants);
@@ -199,7 +214,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
                         if (databaseError == null) {
-                            Toast.makeText(mContext, "You have joined the event", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(mContext, "Failed to join the event: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                         }

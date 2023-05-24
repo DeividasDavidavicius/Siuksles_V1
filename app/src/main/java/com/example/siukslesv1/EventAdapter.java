@@ -41,6 +41,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     FirebaseDatabase firebaseDatabase;
     DatabaseReference userReference;
 
+    String message;
+
     private android.os.Handler handlerr = new android.os.Handler();
     private Runnable runnable = new Runnable() {
         @Override
@@ -189,7 +191,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String eventID = dataSnapshot.getChildren().iterator().next().getKey();
                 DatabaseReference RefRef = firebaseDatabase.getReference().child("events").child(eventID).child("participants");
-                Log.d("sveiki", eventID);
                 RefRef.runTransaction(new Transaction.Handler() {
                     @NonNull
                     @Override
@@ -202,6 +203,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
                         // Check if the user is already a participant
                         List<String> participants = event.getParticipants();
                         if (participants != null && participants.contains(currentUser.getUid())) {
+                            message = "You have already joined the event";
+                            return Transaction.success(mutableData);
+                        }
+
+                        long currentTimeMillis = Calendar.getInstance().getTimeInMillis();
+                        long start = event.getStart();
+                        long end = event.getEnd();
+
+                        if(currentTimeMillis > end || currentTimeMillis < start) {
+                            message = "Event hasn't started yet";
                             return Transaction.success(mutableData);
                         }
 
@@ -238,6 +249,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
                             }
                         });
 
+                        message = "You have joined the event";
                         participants.add(getCurrentUserId());
                         event.setParticipants(participants);
                         mutableData.setValue(event.getParticipants());
@@ -249,7 +261,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
                     @Override
                     public void onComplete(@Nullable DatabaseError databaseError, boolean b, @Nullable DataSnapshot dataSnapshot) {
                         if (databaseError == null) {
-                            Toast.makeText(mContext, "You have joined the event", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(mContext, "Failed to join the event: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                         }
