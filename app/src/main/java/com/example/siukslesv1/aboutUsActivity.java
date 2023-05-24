@@ -22,12 +22,12 @@ public class aboutUsActivity extends AppCompatActivity {
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
                 .setImage(R.drawable.logo)
-                .setDescription("Trashify - making a world a better place by reducing the polution in our country.")
+                .setDescription("AntiLitter - making a world a better place by reducing the polution in our country.")
                 .addGroup("Follow us on social media!")
-                .addEmail("Trashify@gmail.com")
-                .addFacebook("Trashify")
-                .addTwitter("Trashify")
-                .addInstagram("Trashify")
+                .addEmail("AntiLitter@gmail.com")
+                .addFacebook("AntiLitter")
+                .addTwitter("AntiLitter")
+                .addInstagram("AntiLitter")
                 .create();
         setContentView(aboutPage);
 
