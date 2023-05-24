@@ -39,6 +39,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     Context mContext;
     List<Event> mData;
     FirebaseDatabase firebaseDatabase;
+    DatabaseReference userReference;
+
     private android.os.Handler handlerr = new android.os.Handler();
     private Runnable runnable = new Runnable() {
         @Override
@@ -207,6 +209,35 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
                         if (participants == null) {
                             participants = new ArrayList<>();
                         }
+                        userReference = firebaseDatabase.getReference("user");
+                        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@android.support.annotation.NonNull DataSnapshot dataSnapshot) {
+                                for(DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
+                                    String userId = postSnapShot.getKey();
+                                    DatabaseReference userRef = firebaseDatabase.getReference().child("user").child(userId);
+                                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@android.support.annotation.NonNull DataSnapshot dataSnapshot) {
+                                            User user = dataSnapshot.getValue(User.class);
+                                            if(user.getEmail().equals(currentUser.getEmail()))
+                                            {
+                                                userRef.child("points").setValue(user.getPoints() + 5);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@android.support.annotation.NonNull DatabaseError databaseError) {
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@android.support.annotation.NonNull DatabaseError databaseError) {
+                            }
+                        });
+
                         participants.add(getCurrentUserId());
                         event.setParticipants(participants);
                         mutableData.setValue(event.getParticipants());

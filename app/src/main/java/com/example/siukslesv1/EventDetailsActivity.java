@@ -48,6 +48,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     Context mContext;
     Button vote;
+    DatabaseReference userReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,9 +145,7 @@ public class EventDetailsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String eventID = dataSnapshot.getChildren().iterator().next().getKey();
-                Log.d("sveiki", eventID);
                 DatabaseReference RefRef = firebaseDatabase.getReference().child("events").child(eventID).child("participants");
-                Log.d("sveiki", eventID);
                 RefRef.runTransaction(new Transaction.Handler() {
                     @NonNull
                     @Override
@@ -160,6 +159,35 @@ public class EventDetailsActivity extends AppCompatActivity {
                         if (participants.contains(currentUser.getUid())) {
                             return Transaction.success(mutableData);
                         }
+
+                        userReference = firebaseDatabase.getReference("user");
+                        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@android.support.annotation.NonNull DataSnapshot dataSnapshot) {
+                                for(DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
+                                    String userId = postSnapShot.getKey();
+                                    DatabaseReference userRef = firebaseDatabase.getReference().child("user").child(userId);
+                                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@android.support.annotation.NonNull DataSnapshot dataSnapshot) {
+                                            User user = dataSnapshot.getValue(User.class);
+                                            if(user.getEmail().equals(currentUser.getEmail()))
+                                            {
+                                                userRef.child("points").setValue(user.getPoints() + 5);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@android.support.annotation.NonNull DatabaseError databaseError) {
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@android.support.annotation.NonNull DatabaseError databaseError) {
+                            }
+                        });
 
                         // Add the user to the participants list
                         participants.add(currentUser.getUid());
