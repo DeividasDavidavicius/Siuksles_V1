@@ -169,7 +169,7 @@ public class EventDetailsActivity extends AppCompatActivity {
 
                         long currentTimeMillis = Calendar.getInstance().getTimeInMillis();
 
-                        if(currentTimeMillis > eventStart || currentTimeMillis < eventEnd) {
+                        if(currentTimeMillis > eventEnd || currentTimeMillis < eventStart) {
                             message = "Event hasn't started yet";
                             return Transaction.success(mutableData);
                         }
