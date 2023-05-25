@@ -2,7 +2,11 @@ package com.example.siukslesv1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.Image;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -17,6 +21,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,13 +42,18 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Handler;
 
-public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder> {
+public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder>{
     Context mContext;
     List<Event> mData;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference userReference;
 
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+    private static final double EARTH_RADIUS = 6371;
     String message;
+    double latitude;
+    double longitude;
 
     private android.os.Handler handlerr = new android.os.Handler();
     private Runnable runnable = new Runnable() {
@@ -210,6 +222,29 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
                         long currentTimeMillis = Calendar.getInstance().getTimeInMillis();
                         long start = event.getStart();
                         long end = event.getEnd();
+                        String[] arrayOfStr = event.getLocation().split(" ", 5);
+                        for (int i = 0; i < arrayOfStr.length; i++)
+                        {
+                            arrayOfStr[i] = arrayOfStr[i].replace(',', '.');
+                        }
+
+                        locationManager = (LocationManager) mContext.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+                        Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        if (lastKnownLocation != null) {
+                            latitude = lastKnownLocation.getLatitude();
+                            longitude = lastKnownLocation.getLongitude();
+
+                            // Do something with the latitude and longitude
+                        }
+
+                        double lat = Double.parseDouble(arrayOfStr[0]);
+                        double lon = Double.parseDouble(arrayOfStr[1]);
+                        double distance = calculateDistance(lat, lon, latitude, longitude) * 1000;
+                        Log.d("A", String.valueOf(distance));
+                        if(distance > 150) {
+                            message = "You are not close enough to the event";
+                            return Transaction.success(mutableData);
+                        }
 
                         if(currentTimeMillis > end || currentTimeMillis < start) {
                             message = "Event hasn't started yet";
@@ -284,6 +319,26 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         } else {
             return "";
         }
+    }
+    public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+        // Convert latitude and longitude from degrees to radians
+        double lat1Rad = Math.toRadians(lat1);
+        double lon1Rad = Math.toRadians(lon1);
+        double lat2Rad = Math.toRadians(lat2);
+        double lon2Rad = Math.toRadians(lon2);
+
+        // Calculate the differences between the coordinates
+        double deltaLat = lat2Rad - lat1Rad;
+        double deltaLon = lon2Rad - lon1Rad;
+
+        // Apply the Haversine formula
+        double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+                Math.cos(lat1Rad) * Math.cos(lat2Rad) *
+                        Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = EARTH_RADIUS * c;
+
+        return distance;
     }
 }
 

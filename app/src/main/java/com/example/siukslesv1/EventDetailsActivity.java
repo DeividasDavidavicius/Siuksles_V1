@@ -52,6 +52,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     String message;
     long eventStart;
     long eventEnd;
+    String eventLocation;
 
 
     @Override
@@ -61,7 +62,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         mContext =this;
         // Get the event data from the Intent
         String eventTitle = getIntent().getStringExtra("event_title");
-        String eventLocation = getIntent().getStringExtra("event_location");
+        eventLocation = getIntent().getStringExtra("event_location");
         String imageEvent = getIntent().getStringExtra("event_image");
         eventStart = getIntent().getLongExtra("event_start", 0);
         eventEnd = getIntent().getLongExtra("event_end", 0);
@@ -171,6 +172,12 @@ public class EventDetailsActivity extends AppCompatActivity {
 
                         if(currentTimeMillis > eventEnd || currentTimeMillis < eventStart) {
                             message = "Event hasn't started yet";
+                            return Transaction.success(mutableData);
+                        }
+
+                        if(2==1)
+                        {
+                            message = "You arent close enough to the event";
                             return Transaction.success(mutableData);
                         }
 

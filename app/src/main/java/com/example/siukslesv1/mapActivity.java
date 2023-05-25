@@ -36,6 +36,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -139,7 +140,14 @@ public class mapActivity extends AppCompatActivity implements
 
         getCurrentLocation();
 
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(54.8985, 23.9036), 6));
+        LatLng southWest = new LatLng(53.8965, 20.653);
+        LatLng northEast = new LatLng(56.4464, 26.835);
+
+        LatLngBounds bounds = new LatLngBounds(southWest, northEast);
+
+        map.setLatLngBoundsForCameraTarget(bounds);
+        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0));
+        map.animateCamera(CameraUpdateFactory.zoomTo(7));
 
 
         firebaseDatabase = FirebaseDatabase.getInstance("https://siuksliu-programele-default-rtdb.europe-west1.firebasedatabase.app/");
