@@ -7,6 +7,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,6 +48,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     private TextView endTextView;
     private ImageView imageEventView;
     FirebaseDatabase firebaseDatabase;
+    private LocationManager locationManager;
     Context mContext;
     Button vote;
     DatabaseReference userReference;
@@ -53,6 +56,9 @@ public class EventDetailsActivity extends AppCompatActivity {
     long eventStart;
     long eventEnd;
     String eventLocation;
+    double latitude;
+    double longitude;
+    private static final double EARTH_RADIUS = 6371;
 
 
     @Override
@@ -167,7 +173,6 @@ public class EventDetailsActivity extends AppCompatActivity {
                             return Transaction.success(mutableData);
                         }
 
-
                         long currentTimeMillis = Calendar.getInstance().getTimeInMillis();
 
                         if(currentTimeMillis > eventEnd || currentTimeMillis < eventStart) {
@@ -175,9 +180,26 @@ public class EventDetailsActivity extends AppCompatActivity {
                             return Transaction.success(mutableData);
                         }
 
-                        if(2==1)
+                        String[] arrayOfStr = eventLocation.split(" ", 5);
+                        for (int i = 0; i < arrayOfStr.length; i++)
                         {
-                            message = "You arent close enough to the event";
+                            arrayOfStr[i] = arrayOfStr[i].replace(',', '.');
+                        }
+
+                        locationManager = (LocationManager) mContext.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+                        Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        if (lastKnownLocation != null) {
+                            latitude = lastKnownLocation.getLatitude();
+                            longitude = lastKnownLocation.getLongitude();
+
+                            // Do something with the latitude and longitude
+                        }
+
+                        double lat = Double.parseDouble(arrayOfStr[0]);
+                        double lon = Double.parseDouble(arrayOfStr[1]);
+                        double distance = calculateDistance(lat, lon, latitude, longitude) * 1000;
+                        if(distance > 150) {
+                            message = "You are not close enough to the event";
                             return Transaction.success(mutableData);
                         }
 
@@ -243,5 +265,25 @@ public class EventDetailsActivity extends AppCompatActivity {
         } else {
             return "";
         }
+    }
+    public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+        // Convert latitude and longitude from degrees to radians
+        double lat1Rad = Math.toRadians(lat1);
+        double lon1Rad = Math.toRadians(lon1);
+        double lat2Rad = Math.toRadians(lat2);
+        double lon2Rad = Math.toRadians(lon2);
+
+        // Calculate the differences between the coordinates
+        double deltaLat = lat2Rad - lat1Rad;
+        double deltaLon = lon2Rad - lon1Rad;
+
+        // Apply the Haversine formula
+        double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+                Math.cos(lat1Rad) * Math.cos(lat2Rad) *
+                        Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = EARTH_RADIUS * c;
+
+        return distance;
     }
 }

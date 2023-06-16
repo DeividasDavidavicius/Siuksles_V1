@@ -240,7 +240,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
                         double lat = Double.parseDouble(arrayOfStr[0]);
                         double lon = Double.parseDouble(arrayOfStr[1]);
                         double distance = calculateDistance(lat, lon, latitude, longitude) * 1000;
-                        Log.d("A", String.valueOf(distance));
                         if(distance > 150) {
                             message = "You are not close enough to the event";
                             return Transaction.success(mutableData);
