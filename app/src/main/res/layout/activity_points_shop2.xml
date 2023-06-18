@@ -48,6 +48,9 @@
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/navigation"
+        app:itemIconTint="@color/mainText"
+        app:itemTextColor="@color/mainText"
         app:menu="@menu/bottom_nav_menu" />
 
     <Button
@@ -57,6 +60,8 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/baseline_settings_24"
         android:foreground="@drawable/baseline_settings_24"
+        android:foregroundTint="@color/settings"
+        android:backgroundTint="@color/settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlHardcoded" />
@@ -64,7 +69,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="0dp"
         android:orientation="horizontal"
         android:textColor="@color/mainText"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
@@ -72,27 +77,27 @@
         <TextView
             android:id="@+id/pointCountNameView"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:text="Current point amount:"
             android:textColor="@color/mainText"
-            android:textSize="20dp"
+            android:textSize="30dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="20dp"/>
 
         <TextView
             android:id="@+id/pointCountView"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:textColor="@color/mainText"
             android:text=""
-            android:textSize="20dp"
-            android:layout_marginTop="30dp"/>
+            android:textSize="30dp"
+            android:layout_marginTop="20dp"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="392dp"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
         android:layout_marginTop="1dp"
         android:layout_weight="0.9"
         android:orientation="vertical"
@@ -123,7 +128,8 @@
                     android:textAlignment="center"
                     android:text="Temp"
                     android:textColor="@color/mainText"
-                    android:textSize="20dp" />
+                    android:textStyle="bold"
+                    android:textSize="30dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -185,7 +191,8 @@
                     android:textColor="@color/mainText"
                     android:textAlignment="center"
                     android:text="Temp"
-                    android:textSize="20dp" />
+                    android:textStyle="bold"
+                    android:textSize="30dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -254,7 +261,8 @@
                     android:textColor="@color/mainText"
                     android:textAlignment="center"
                     android:text="Temp"
-                    android:textSize="20dp" />
+                    android:textStyle="bold"
+                    android:textSize="30dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -315,7 +323,8 @@
                     android:textColor="@color/mainText"
                     android:textAlignment="center"
                     android:text="Temp"
-                    android:textSize="20dp" />
+                    android:textStyle="bold"
+                    android:textSize="30dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

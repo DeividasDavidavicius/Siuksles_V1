@@ -31,6 +31,9 @@
 
     <color name="mainBackground">#FFFFFF</color>
     <color name="mainText">#000000</color>
+    <color name="hintText">#747272</color>
     <color name="mainButton">#B18BF6</color>
+    <color name="settings">#B18BF6</color>
+    <color name="navigation">#ECECEC</color>
 
 </resources>

@@ -22,6 +22,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/baseline_settings_24"
         android:foreground="@drawable/baseline_settings_24"
+        android:foregroundTint="@color/settings"
+        android:backgroundTint="@color/settings"
         android:layout_alignParentRight="true"
         tools:ignore="RtlHardcoded" />
 
@@ -62,6 +64,10 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
+        android:background="@color/navigation"
+        android:keepScreenOn="false"
+        app:itemIconTint="@color/mainText"
+        app:itemTextColor="@color/mainText"
         app:menu="@menu/bottom_nav_menu" />
 
 

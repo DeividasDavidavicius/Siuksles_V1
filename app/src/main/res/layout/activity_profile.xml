@@ -35,9 +35,9 @@
 
     <LinearLayout
         android:layout_width="350dp"
-        android:layout_height="300dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="450dp"
         android:layout_centerInParent="true"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical">
 
         <TextView
@@ -45,63 +45,68 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:textSize="25dp"
-            android:textStyle="bold"
+            android:text="Username:"
             android:textColor="@color/mainText"
-            android:text="Username:" />
+            android:textSize="40dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/usernameView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:textSize="25dp"
+            android:text=""
             android:textColor="@color/mainText"
-            android:text="" />
+            android:textSize="40dp" />
 
         <TextView
             android:id="@+id/emailViewTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:textSize="25dp"
-            android:textStyle="bold"
+            android:text="Email:"
             android:textColor="@color/mainText"
-            android:text="Email:" />
+            android:textSize="40dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/emailView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:textSize="25dp"
+            android:text=""
             android:textColor="@color/mainText"
-            android:text="" />
+            android:textSize="40dp" />
 
         <TextView
             android:id="@+id/titleViewTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:textSize="25dp"
-            android:textStyle="bold"
+            android:text="Title:"
             android:textColor="@color/mainText"
-            android:text="Title:" />
+            android:textSize="40dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/titleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:textSize="25dp"
+            android:text=""
             android:textColor="@color/mainText"
-            android:text="" />
+            android:textSize="40dp" />
     </LinearLayout>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="@color/navigation"
+        app:itemIconTint="@color/mainText"
+        app:itemTextColor="@color/mainText"
         app:menu="@menu/bottom_nav_menu" />
 
     <Button
@@ -110,6 +115,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/baseline_settings_24"
         android:foreground="@drawable/baseline_settings_24"
+        android:foregroundTint="@color/settings"
+        android:backgroundTint="@color/settings"
         android:layout_alignParentRight="true"
         tools:ignore="RtlHardcoded" />
 

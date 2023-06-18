@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:text="TextView"
-        android:textColor="@color/mainText"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView2" />
@@ -66,6 +66,8 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/baseline_thumb_up_24"
         android:foreground="@drawable/baseline_thumb_up_24"
+        android:foregroundTint="@color/white"
+        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/row_post_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/row_post_image"

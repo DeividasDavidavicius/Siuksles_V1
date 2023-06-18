@@ -24,6 +24,9 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
+        android:background="@color/navigation"
+        app:itemIconTint="@color/mainText"
+        app:itemTextColor="@color/mainText"
         app:menu="@menu/bottom_nav_menu" />
 
     <Button
@@ -32,6 +35,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/baseline_settings_24"
         android:foreground="@drawable/baseline_settings_24"
+        android:foregroundTint="@color/settings"
+        android:backgroundTint="@color/settings"
         android:layout_alignParentRight="true" />
 
     <Button
@@ -39,6 +44,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
+        android:backgroundTint="@color/mainButton"
+        android:textColor="@color/mainText"
         android:text="Profile"/>
 
     <TextView

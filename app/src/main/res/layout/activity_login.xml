@@ -30,7 +30,7 @@
             android:inputType="text"
             android:textColor="@color/mainText"
             android:hint="@string/email"
-            android:textColorHint="@color/mainText"/>
+            android:textColorHint="@color/hintText"/>
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/mainText"
             android:inputType="textPassword"
-            android:textColorHint="@color/mainText"/>
+            android:textColorHint="@color/hintText"/>
 
     <ProgressBar
         android:id="@+id/progressBar"

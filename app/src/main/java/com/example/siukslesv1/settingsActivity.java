@@ -33,13 +33,12 @@ public class settingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
+        themeBtn = (androidx.appcompat.widget.SwitchCompat) findViewById(R.id.switchBtn);
 
         //Element appSettingPrefs: SharedPreferences = getSharedPreferences("AppSettingsPrefs", 0)
         backButton = (ImageButton) findViewById(R.id.homePage1);
         aboutUsButton = (ImageButton) findViewById(R.id.aboutUs);
         logoutButton = (androidx.appcompat.widget.AppCompatButton) findViewById(R.id.logout);
-        themeBtn = (androidx.appcompat.widget.SwitchCompat) findViewById(R.id.switchBtn);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +58,11 @@ public class settingsActivity extends AppCompatActivity {
                 logout(view);
             }
         });
+
+//        int mode = AppCompatDelegate.getDefaultNightMode();
+//        if(mode == 2){
+//            themeBtn.toggle();
+//        }
         themeBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
