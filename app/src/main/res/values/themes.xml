@@ -8,7 +8,7 @@
         <item name="android:textColorPrimary">@color/light_mode_primary</item>
         <!-- Secondary brand color. -->
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/mainButton</item>
+        <item name="android:statusBarColor">#6745A5</item>
         <!-- Customize your theme here. -->
     </style>
 

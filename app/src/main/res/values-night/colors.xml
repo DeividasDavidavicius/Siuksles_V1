@@ -20,5 +20,6 @@
     <color name="mainButton">#325C5A</color>
     <color name="settings">#FFFFFF</color>
     <color name="navigation">#2B2B2B</color>
+    <color name="like">#6AC500</color>
 
 </resources>

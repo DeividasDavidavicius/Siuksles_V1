@@ -18,83 +18,7 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_launcher_background" />
 
-    <TextView
-        android:id="@+id/row_post_title"
-        android:layout_width="0sp"
-        android:layout_height="60sp"
-        android:layout_marginStart="200sp"
-        android:layout_marginTop="430sp"
-        android:text="TextView"
-        android:textColor="@color/purple_200"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/votes"
-        android:layout_width="0sp"
-        android:layout_height="60sp"
-        android:layout_marginStart="200sp"
-        android:layout_marginTop="490sp"
-        android:text="0"
-        android:textColor="@color/purple_200"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/location"
-        android:layout_width="0sp"
-        android:layout_height="60sp"
-        android:layout_marginStart="200sp"
-        android:layout_marginTop="370sp"
-        android:text="TextView"
-        android:textColor="@color/purple_200"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="0sp"
-        android:layout_height="60sp"
-        android:layout_marginTop="430sp"
-        android:text="Name:"
-        android:textStyle="bold"
-        android:textColor="@color/purple_200"
-        android:textSize="35sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="0sp"
-        android:layout_height="60sp"
-        android:layout_marginTop="370sp"
-        android:text="Location:"
-        android:textStyle="bold"
-        android:textColor="@color/purple_200"
-        android:textSize="35sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="0sp"
-        android:layout_height="60sp"
-        android:layout_marginTop="490sp"
-        android:text="Vote count:"
-        android:textStyle="bold"
-        android:textColor="@color/purple_200"
-        android:textSize="35sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -119,11 +43,75 @@
         android:layout_marginEnd="16sp"
         android:background="@drawable/baseline_thumb_up_24"
         android:foreground="@drawable/baseline_thumb_up_24"
-        android:foregroundTint="@color/white"
-        android:backgroundTint="@color/white"
+        android:foregroundTint="@color/like"
+        android:backgroundTint="@color/like"
         android:text="+1"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/row_post_image">
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name:"
+            android:textStyle="bold"
+            android:textColor="@color/purple_200"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/row_post_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@color/purple_200"
+            android:textSize="40sp"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Location:"
+            android:textStyle="bold"
+            android:textColor="@color/purple_200"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@color/purple_200"
+            android:textSize="40sp"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vote count:"
+            android:textStyle="bold"
+            android:textColor="@color/purple_200"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/votes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@color/purple_200"
+            android:textSize="40sp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,5 +35,6 @@
     <color name="mainButton">#B18BF6</color>
     <color name="settings">#B18BF6</color>
     <color name="navigation">#ECECEC</color>
+    <color name="like">#00FF1A</color>
 
 </resources>
