@@ -123,8 +123,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFinish() {
-                timer.setText("Done");
+            public void onFinish() {timer.setText("Done");
             }
         }.start();
 
@@ -143,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     {
                         votingTime +=604800000;
                     }
-                    final long[] eventStartTime = {votingTime - 604800000 + 86400000};
+                    final long[] eventStartTime = {votingTime - 604800000 + 86400000 + 172800000};
                     final int[] eventCount = {0};
                     timerReference.child("timerDate").setValue(votingTime);
 
